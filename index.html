@@ -1,0 +1,1904 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Máquinas y Mecanismos — laboratorio interactivo</title>
+<meta name="description" content="Laboratorio interactivo de cinemática de mecanismos: eslabones, uniones, diagramas cinemáticos, movilidad, inversión cinemática, cuatro barras, manivela-corredera y técnicas de análisis.">
+<link rel="stylesheet" href="style.css?v=4">
+<link rel="stylesheet" href="visual.css?v=17">
+</head>
+<body>
+
+<header class="top">
+  <div class="top-in">
+    <button id="menu-btn" class="btn small" aria-controls="side" aria-expanded="false" title="Mostrar u ocultar el contenido">☰ Contenido</button>
+    <a class="brand" href="#inicio"><span class="logo" aria-hidden="true">⚙</span> Mecanismos Vivos</a>
+    <span class="crumb" id="crumb"></span>
+    <span class="prog-mini" id="prog-mini" title="Lecciones completadas">0/41</span>
+    <button id="pause" class="btn small" aria-pressed="false" title="Pausar o reanudar todas las animaciones">⏸ Pausar</button>
+  </div>
+</header>
+<div class="shell">
+<aside class="side" id="side" aria-label="Contenido del curso"><nav id="side-nav"></nav></aside>
+<div class="side-scrim" id="scrim" hidden></div>
+
+<main>
+
+<section class="hero" id="inicio">
+  <p class="eyebrow">Capítulo 1 · Introducción a los mecanismos y a la cinemática</p>
+  <h1>Laboratorio de cinemática de mecanismos</h1>
+  <p class="lead">Un recorrido de diez módulos que combina fundamento teórico, simulación y práctica. Cada módulo sigue la misma secuencia: <b>explorar → predecir → experimentar → explicar → comprobar</b>.</p>
+
+  <div class="goals-box">
+    <h3>Al terminar podrás</h3>
+    <ol class="goals-list">
+      <li>Explicar para qué sirve el análisis cinemático y distinguirlo del análisis de fuerzas.</li>
+      <li>Identificar los componentes de un mecanismo: eslabones, uniones, bancada, actuadores.</li>
+      <li>Elaborar el diagrama cinemático de una máquina real.</li>
+      <li>Calcular los grados de libertad e interpretar el resultado, incluidos los casos especiales.</li>
+      <li>Aplicar la inversión cinemática y clasificar un mecanismo de cuatro barras con el criterio de Grashof.</li>
+      <li>Analizar mecanismos de manivela-corredera y de propósito especial.</li>
+    </ol>
+  </div>
+
+  <p class="marks"><b>Cómo leer cada módulo:</b> <span>📘 Fundamento teórico</span> <span>📐 Ampliación matemática</span> <span>🎛 Modelo interactivo</span> <span>🔧 Ejemplo resuelto</span> <span>✍ Ejercicios</span>. Las <i>ampliaciones matemáticas</i> van más allá del capítulo 1 (pertenecen a capítulos posteriores del libro) y se marcan para distinguirlas del contenido propio del capítulo.</p>
+
+  <div class="path" aria-label="Ruta de aprendizaje recomendada">
+    <div class="path-head"><b>Ruta recomendada</b><span id="prog-text">0 de 41 lecciones completadas</span></div>
+    <div class="bar" role="progressbar" aria-valuemin="0" aria-valuemax="41" aria-valuenow="0" id="prog-bar"><i></i></div>
+    <ol class="path-steps" id="path-steps"></ol>
+    <p class="muted-s">Cada módulo está dividido en lecciones cortas: fundamento, simulación, ejemplo resuelto y una comprobación. Puedes estudiar en cualquier orden, pero la ruta va de lo simple a lo complejo. Tu avance se guarda en este navegador.</p>
+    <p><a class="btn" id="cta" href="#l1-1">Comenzar</a></p>
+  </div>
+</section>
+
+<!-- =========================== MÓDULO 1 =========================== -->
+<section id="m1" class="module" data-module="1" data-title="Fundamentos de las máquinas y los mecanismos">
+  <article class="lesson" id="l1-1" data-mod="1" data-les="1" data-title="Máquina y mecanismo" data-obj="Distinguir máquina de mecanismo, identificar entrada, acoplador y salida, y diferenciar síntesis de análisis." hidden>
+  <div class="grid-2">
+    <div class="prose">
+      <h3>¿Por qué estudiar el movimiento antes que la fuerza?</h3>
+      <p>Imagina que formas parte de un equipo que diseña un sistema de limpiaparabrisas. Antes de dimensionar el motor o el grosor de las barras necesitas responder preguntas puramente geométricas: ¿qué ángulo debe barrer cada escobilla para cubrir la zona de visión del conductor? ¿Dónde se ubican los pivotes? ¿Se mueven en tándem o en sentidos opuestos? Comprender primero la geometría ayuda a plantear el problema; sin embargo, las fuerzas y las cargas también pueden condicionar el diseño desde el comienzo.</p>
+      <p>Esa es la organización didáctica del capítulo: empezaremos por la <b>cinemática</b> (descripción del movimiento sin estudiar sus causas) y más adelante relacionaremos lo aprendido con el análisis de fuerzas. En un proyecto de ingeniería ambas perspectivas se revisan de manera iterativa.</p>
+
+      <h3>Máquina y mecanismo</h3>
+      <p>Una <b>máquina</b> es un sistema que utiliza, transmite o transforma energía para realizar una función útil, como elevar una carga o impulsar un vehículo. Un <b>mecanismo</b> es un conjunto de elementos conectados que determina cómo se transmite o transforma el movimiento relativo entre ellos. Un mecanismo puede formar parte de una máquina, pero no es necesario que tenga un motor propio. <b>Ejemplo:</b> el motor de combustión es una máquina; la biela y el cigüeñal forman parte de uno de sus mecanismos.</p>
+      <p>En una sierra de cadena, el conjunto completo es la máquina; el mecanismo es el conjunto de piezas que toma la potencia del motor y la entrega a la cadena de corte. En una plataforma elevadora hidráulica, el mecanismo son las piernas articuladas que convierten la carrera del cilindro en elevación.</p>
+      <div class="def"><b>Dos procesos de diseño complementarios</b>
+        <ul>
+          <li><b>Síntesis:</b> partir del movimiento deseado y <i>crear</i> un mecanismo que lo produzca.</li>
+          <li><b>Análisis:</b> partir de un mecanismo dado y <i>verificar</i> qué movimiento produce y si cumple los requisitos.</li>
+        </ul>
+      </div>
+    </div>
+    <figure class="card">
+      <canvas id="cv-wiper" class="cv"></canvas>
+      <figcaption><b>Modelo de limpiaparabrisas.</b> Motor girando → escobilla oscilando. El área naranja es la zona barrida. <i>Es un modelo particular de cuatro barras (manivela-balancín); no todos los limpiaparabrisas comerciales usan exactamente esta arquitectura.</i></figcaption>
+    </figure>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l1-2" data-mod="1" data-les="2" data-title="Cinemática y magnitudes del movimiento" data-obj="Definir posición, desplazamiento, velocidad y aceleración, y distinguir cinemática, estática, cinética y dinámica." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="trayecto"></div><figcaption><b>Distancia y desplazamiento:</b> la distancia suma todo el camino; el desplazamiento solo mide de dónde a dónde. Aquí valen 4 m y +2 m.</figcaption></figure></div>
+
+<h3>Cinemática, estática y dinámica</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Rama</th><th>Pregunta que responde</th><th>Magnitudes</th><th>Ejemplo (plataforma elevadora)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Cinemática</b></td><td>¿Cómo se mueve? (geometría del movimiento, sin considerar sus causas)</td><td>Posición, desplazamiento, rotación, rapidez, velocidad, aceleración</td><td>¿Qué longitud deben tener las piernas? ¿Cuánto debe extenderse el cilindro para subir 8 in?</td></tr>
+        <tr><td><b>Estática</b></td><td>¿Qué fuerzas se necesitan para que algo permanezca en equilibrio?</td><td>Fuerzas, momentos, reacciones</td><td>¿Qué fuerza necesita el cilindro para sostener la carga detenida?</td></tr>
+        <tr><td><b>Dinámica</b></td><td>¿Qué fuerzas aparecen cuando hay movimiento y aceleración?</td><td>Fuerzas, masas, inercias, aceleraciones</td><td>¿Qué capacidad máxima debe tener el cilindro? ¿Se vuelca? ¿Resisten las piernas?</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+  <h3 class="mt">📘 Magnitudes cinemáticas: definiciones formales</h3>
+  <div class="prose wide">
+    <p>Toda descripción de movimiento exige un <b>sistema de referencia</b>: un origen O y ejes (aquí x hacia la derecha, y hacia arriba; ángulos positivos en sentido antihorario). En este capítulo, «movimiento absoluto» significa movimiento medido respecto al sistema de referencia que se ha declarado fijo (la bancada), <b>no</b> un movimiento absoluto en sentido físico universal.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Magnitud</th><th>Definición</th><th>Tipo</th><th>Unidad (SI)</th></tr></thead>
+      <tbody>
+        <tr><td><b>Posición r</b></td><td>Vector desde O hasta el punto: r = (x, y)</td><td>Vectorial</td><td>m</td></tr>
+        <tr><td><b>Trayectoria</b></td><td>Lugar geométrico de las posiciones sucesivas del punto</td><td>Curva</td><td>—</td></tr>
+        <tr><td><b>Desplazamiento Δr</b></td><td>Δr = r(t₂) − r(t₁); depende solo de la posición inicial y final</td><td>Vectorial</td><td>m</td></tr>
+        <tr><td><b>Distancia recorrida</b></td><td>Longitud medida sobre la trayectoria; siempre ≥ |Δr|</td><td>Escalar</td><td>m</td></tr>
+        <tr><td><b>Velocidad v</b></td><td>v = dr/dt (tangente a la trayectoria)</td><td>Vectorial</td><td>m/s</td></tr>
+        <tr><td><b>Rapidez</b></td><td>|v|</td><td>Escalar</td><td>m/s</td></tr>
+        <tr><td><b>Aceleración a</b></td><td>a = dv/dt</td><td>Vectorial</td><td>m/s²</td></tr>
+        <tr><td><b>Posición angular θ</b></td><td>Ángulo de una recta del cuerpo respecto a un eje fijo</td><td>Escalar con signo (en el plano)</td><td>rad</td></tr>
+        <tr><td><b>Velocidad angular ω</b></td><td>ω = dθ/dt</td><td>Escalar con signo en el plano (vector perpendicular al plano en general)</td><td>rad/s</td></tr>
+        <tr><td><b>Aceleración angular α</b></td><td>α = dω/dt</td><td>Ídem</td><td>rad/s²</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Para un punto de un cuerpo que gira con ω y α alrededor de un centro fijo, a distancia ρ del centro: rapidez <b>|v| = |ω|·ρ</b>, aceleración tangencial <b>a<sub>t</sub> = α·ρ</b> y aceleración normal <b>a<sub>n</sub> = ω²·ρ</b> (dirigida al centro).</p>
+
+  
+  </article>
+  <article class="lesson" id="l1-3" data-mod="1" data-les="3" data-title="Movimiento del cuerpo rígido y supuestos del modelo" data-obj="Clasificar el movimiento plano de un cuerpo rígido y reconocer las hipótesis del análisis cinemático." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="fourbar" data-opts='{"label": ""}'></div><figcaption><b>Movimiento plano general:</b> la biela (morada) se traslada y gira a la vez; la curva naranja es la trayectoria de uno de sus puntos.</figcaption></figure></div>
+
+<h3 class="mt">📘 Clasificación del movimiento de un cuerpo rígido</h3>
+  <div class="grid-3">
+    <div class="mini"><b>Traslación</b><span>Toda recta del cuerpo conserva su orientación; todos los puntos describen trayectorias idénticas (rectilíneas o curvilíneas). Ej.: la plataforma de un paralelogramo; la corredera.</span></div>
+    <div class="mini"><b>Rotación pura</b><span>Un punto (un eje, en el espacio) permanece fijo; los demás describen circunferencias centradas en él. Ej.: una manivela con su pivote en la bancada.</span></div>
+    <div class="mini"><b>Plano general</b><span>Combinación de traslación y rotación (teorema de Chasles: todo desplazamiento plano se reduce a una traslación más una rotación). Ej.: el acoplador de un cuatro barras.</span></div>
+  </div>
+  <div class="prose wide">
+    <p>Un <b>cuerpo rígido</b> es una idealización en la que las distancias entre todos sus puntos se consideran constantes, aunque actúen fuerzas. Un cuerpo rígido libre tiene <b>3 grados de libertad en el plano</b> (dos traslaciones y una rotación) y <b>6 en el espacio</b> (tres traslaciones y tres rotaciones). El capítulo se limita a mecanismos planos; el caso espacial se menciona solo para ubicar el alcance.</p>
+    <p><b>Ramas de la mecánica de máquinas</b> (la nomenclatura varía entre textos): <b>cinemática</b>, movimiento sin considerar sus causas; <b>estática</b>, fuerzas en equilibrio (a = 0); <b>cinética</b>, relación entre fuerzas/momentos y el movimiento que producen (ΣF = m·a, ΣM = I·α); y <b>dinámica</b>, que en la tradición de ingeniería agrupa cinemática y cinética (en algunos textos «dinámica» designa solo la cinética). Aquí nos ocupamos de la primera.</p>
+  </div>
+<div class="grid-2 tight">
+    <div class="prose">
+      <h3>Mecanismos planos</h3>
+      <p>En la mayoría de los mecanismos comerciales todas las partes se mueven en planos paralelos. Dos mecanismos idénticos pueden ubicarse a ambos lados de una máquina para dar estabilidad (como en la plataforma elevadora), pero cada uno se mueve en un plano vertical. Por eso basta estudiarlos en <b>dos dimensiones</b>: son los <b>mecanismos planos</b>, objeto de este capítulo.</p>
+    </div>
+    <div class="prose">
+      <h3>Supuestos del modelo</h3>
+      <ul>
+        <li>Los eslabones se consideran <b>rígidos</b> (sus distancias internas se mantienen constantes en el modelo).</li>
+        <li>Las uniones son <b>ideales</b>: sin holgura ni fricción.</li>
+        <li>Importa la <b>geometría</b> (distancias entre uniones), no la forma exterior de las piezas.</li>
+      </ul>
+      <p class="note">Son simplificaciones útiles, no descripciones literales. En el análisis de fuerzas y de resistencia, la elasticidad, la fricción y las holguras sí se consideran.</p>
+    </div>
+  </div>
+
+  <details class="predict"><summary>🔮 Predice: ¿qué eslabón del limpiaparabrisas hace el trabajo útil?</summary>
+    <p>Observa el modelo de arriba: la escobilla va unida al eslabón de <b>salida</b> (el seguidor que oscila). El eslabón de <b>entrada</b> (manivela) es el que gira completo, impulsado por el motor. El <b>acoplador</b> solo transmite el movimiento entre ambos. La bancada es la carrocería.</p>
+  </details>
+  <ul class="legend inline">
+    <li><i class="dot c-ground"></i><b>Bancada</b> (1): marco de referencia.</li>
+    <li><i class="dot c-input"></i><b>Entrada</b> (2): recibe el movimiento del actuador.</li>
+    <li><i class="dot c-coupler"></i><b>Acoplador</b> (3): conecta entrada y salida.</li>
+    <li><i class="dot c-output"></i><b>Salida</b> (4): realiza el trabajo.</li>
+  </ul>
+  </article>
+  <article class="lesson" id="l1-4" data-mod="1" data-les="4" data-title="Máquinas, mecanismos y fuerzas" data-obj="Distinguir máquina de mecanismo por su función, ubicar la cinemática y la dinámica en cada caso, y calcular el momento de una fuerza." hidden>
+  <h3>La división tradicional: cinemática y dinámica</h3>
+  <div class="grid-2">
+    <div class="mini ok"><b>Cinemática</b><span>Estudia el movimiento <i>sin</i> considerar las causas que lo producen: posiciones, ángulos, velocidades y aceleraciones.</span></div>
+    <div class="mini warn"><b>Dinámica</b><span>Incluye además las <i>acciones</i> que producen el movimiento: fuerzas, momentos, masas y energía.</span></div>
+  </div>
+
+  <h3 class="mt">Máquina y mecanismo: función útil frente a movimiento relativo</h3>
+  <div class="def"><b>Dos conceptos para la materia</b>
+    <ul>
+      <li><b>Máquina:</b> sistema dispuesto para realizar una <b>función útil</b>, generalmente mediante el <b>intercambio o la transformación de energía</b>. Una máquina puede contener uno o varios mecanismos. <i>Ejemplo: el motor de un automóvil.</i></li>
+      <li><b>Mecanismo:</b> disposición de elementos conectados que <b>condiciona y transmite movimientos</b>: sus uniones imponen un movimiento relativo determinado, y lo que se estudia es la cinemática. <i>Ejemplo: los engranes de un reloj.</i></li>
+    </ul>
+  </div>
+  
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Pregunta</th><th>Mecanismo</th><th>Máquina</th></tr></thead>
+      <tbody>
+        <tr><td><b>¿Qué es?</b></td><td>Una disposición de elementos conectados que condiciona y transmite movimientos</td><td>Un sistema dispuesto para realizar una función útil, generalmente intercambiando o transformando energía</td></tr>
+        <tr><td><b>¿Qué se estudia?</b></td><td>Cómo se mueven las piezas entre sí: trayectorias, velocidades, relaciones de movimiento (cinemática)</td><td>Además: energía, fuerzas, potencia, resistencia de los materiales, control y seguridad</td></tr>
+        <tr><td><b>¿Cómo se relacionan?</b></td><td>Un mecanismo puede ser una parte de una máquina, o funcionar por sí solo</td><td>Una máquina contiene uno o varios mecanismos</td></tr>
+        <tr><td><b>Ejemplos</b></td><td>Engranes de un reloj, caja reductora, la articulación del limpiaparabrisas, un cuatro barras</td><td>Automóvil, excavadora, impresora, lavadora</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note"><b>La fuerza no decide.</b> Un mecanismo puede transmitir cargas enormes (una caja reductora) y una máquina puede trabajar con fuerzas pequeñas (una impresora). Se distinguen por la <b>función</b> (máquina: función útil con energía) y por las <b>relaciones de movimiento</b> (mecanismo: movimiento relativo condicionado). La magnitud de las fuerzas solo indica <b>cuánto análisis extra necesitas</b> además de la cinemática. Cualquier conjunto puede necesitar análisis cinemático, estático, cinético y estructural. «Primero cinemática y luego dinámica» es una <b>estrategia de análisis</b>, no un orden universal: en el diseño real las cargas pueden condicionar la geometría desde el inicio.</p>
+
+  <h3 class="mt">Pruébalo: ¿cuánto análisis de fuerzas necesito?</h3>
+  <div class="vz-widget" data-widget="moment"></div>
+
+  <h3 class="mt">Un mismo mecanismo, dos mundos</h3>
+  <div class="grid-2">
+    <div class="mini"><b>Cuatro barras en un juguete</b><span>Fuerzas casi despreciables: basta la cinemática (longitudes, ángulos) para que funcione.</span></div>
+    <div class="mini"><b>Cuatro barras en la pluma de una excavadora</b><span>La misma geometría, pero con toneladas: hay que calcular fuerzas, esfuerzos y potencia (dinámica) para que no se rompa.</span></div>
+  </div>
+  </article>
+  <article class="lesson" id="l1-5" data-mod="1" data-les="5" data-title="Estudio tipológico: cadenas, eslabones y pares" data-obj="Clasificar eslabones y pares cinemáticos con los criterios del estudio tipológico y distinguir cadena cinemática de mecanismo." hidden>
+  <h3>Qué analiza un estudio tipológico</h3>
+  <div class="grid-3">
+    <div class="mini"><b>1 · Los elementos</b><span>Qué piezas lo componen y cuál es su <i>forma</i> (barra, disco, diente, leva…).</span></div>
+    <div class="mini"><b>2 · Su número</b><span>Cuántos eslabones tiene, contando la bancada.</span></div>
+    <div class="mini"><b>3 · Las uniones</b><span>Cómo se unen entre sí (pares cinemáticos).</span></div>
+    <div class="mini"><b>4 · Los movimientos</b><span>Qué tipos de movimiento pueden efectuar.</span></div>
+    <div class="mini"><b>5 · Las leyes</b><span>Qué leyes lo rigen (palanca, Grashof, Grübler, relación de engranes…).</span></div>
+    <div class="mini ok"><b>Resultado</b><span>Una <b>ficha tipológica</b> que permite compararlo con otros (lección 1.6).</span></div>
+  </div>
+
+  <h3 class="mt">Cadena cinemática y mecanismo no son lo mismo</h3>
+  <div class="def"><b>Definiciones</b>
+    <ul>
+      <li><b>Cadena cinemática:</b> conjunto de <b>eslabones</b> unidos por <b>pares cinemáticos</b>.</li>
+      <li><b>Mecanismo:</b> una cadena cinemática con una bancada elegida como referencia; se puede identificar una entrada y una salida según la función estudiada.</li>
+      <li><b>Abierta</b> si los eslabones no forman un lazo (brazo robótico); <b>cerrada</b> si forman uno o más lazos (cuatro barras).</li>
+    </ul>
+  </div>
+  <div class="vz-demos">
+    <figure class="vz-demo"><div class="vz-host" data-scene="arm"></div><figcaption><b>Cadena abierta:</b> para fijar toda la configuración hay que controlar cada coordenada independiente (en la práctica, casi siempre un actuador por articulación).</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="fourbar" data-opts='{"label":"grashof"}'></div><figcaption><b>Cadena cerrada:</b> en una rama regular de este cuatro barras con M = 1, una entrada independiente determina localmente las otras posiciones.</figcaption></figure>
+  </div>
+
+  <h3 class="mt">El eslabón y sus tres clasificaciones</h3>
+  <p>Un <b>eslabón</b> es un cuerpo rígido —o un conjunto de piezas rígidamente unidas— considerado una unidad de movimiento. Puede ser una barra, una rueda, una placa o una carcasa. Si tiene dos conexiones con otros eslabones se denomina <b>binario</b>; con tres, <b>ternario</b>; con cuatro, <b>cuaternario</b>.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Criterio</th><th>Tipos</th><th>Ejemplos</th></tr></thead>
+      <tbody>
+        <tr><td><b>Número de pares</b> que tiene</td><td>Binario (2), ternario (3), cuaternario (4)… hasta <i>n</i> lados</td><td>Biela (binario); balancín de una excavadora con tres pernos (ternario)</td></tr>
+        <tr><td><b>Naturaleza</b> del elemento</td><td><b>Rígido</b> · <b>flexible</b> (correa, cadena, cable: transmite fuerza por tracción) · <b>deformable</b> (resorte: además almacena energía) · <b>fluido</b> (transmite fuerza por presión; se modela aparte, no como eslabón rígido)</td><td>Barra o engrane · correa, cadena, cable, resorte · aceite o aire de un cilindro</td></tr>
+        <tr><td><b>Tipo de movimiento</b> que realiza</td><td>Manivela · balancín · acoplador · deslizadera (y la bancada, fija)</td><td>Manivela: gira completa · balancín: oscila · acoplador: une entrada y salida · deslizadera: se desplaza por una guía</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt">El par cinemático y sus cuatro clasificaciones</h3>
+  <p>El <b>par cinemático</b> es la unión móvil entre dos eslabones: permite un movimiento relativo y bloquea el resto.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Criterio</th><th>Clasificación</th></tr></thead>
+      <tbody>
+        <tr><td><b>1. Número de elementos</b> que une</td><td>Binario, ternario, cuaternario… (un perno compartido por <i>k</i> eslabones cuenta como <i>k − 1</i> uniones, lección 3.3).</td></tr>
+        <tr><td><b>2. Cierre</b> (qué mantiene el contacto)</td><td><b>Por forma</b>: la geometría lo mantiene (perno en su agujero). <b>Por fuerza</b>: lo mantiene un resorte o el peso (leva con muelle). Algunos textos añaden el cierre <b>por cadena</b>, cuando otros eslabones del lazo lo aseguran.</td></tr>
+        <tr><td><b>3. Clase</b> (grados de libertad)</td><td>Clase 1 a clase 5. En este curso la clase es el <b>número de GDL relativos</b> del par en el espacio; otros libros la definen por las <b>restricciones</b> (6 − GDL). Ver la tabla siguiente.</td></tr>
+        <tr><td><b>4. Contacto</b></td><td><b>Pares inferiores</b> (contacto por superficie) y <b>pares superiores</b> (contacto por línea o punto).</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt">Clases de pares por sus grados de libertad</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Clase (por GDL)</th><th>GDL</th><th>Restricciones (6 − GDL)</th><th>Ejemplos</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>1</td><td>5</td><td>Rotación (revoluta), prismático, helicoidal (tornillo)</td></tr>
+        <tr><td>2</td><td>2</td><td>4</td><td>Cilíndrico, esférico con ranura, leva</td></tr>
+        <tr><td>3</td><td>3</td><td>3</td><td>Esférico (rótula), plano</td></tr>
+        <tr><td>4</td><td>4</td><td>2</td><td>Esfera-cilindro, plano-cilindro</td></tr>
+        <tr><td>5</td><td>5</td><td>1</td><td>Plano-esfera (esfera sobre un plano)</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Convención de este curso: <b>clase = GDL</b>. Si tu libro numera por restricciones, la tabla se lee de abajo hacia arriba (la revoluta sería de clase 5). Compruébalo siempre antes de comparar fuentes. La tabla es <b>espacial</b>: en el plano un par solo puede tener 1 o 2 GDL (revoluta y prismático: 1; contacto superior: 2).</p>
+
+  <h3 class="mt">Los pares en imágenes</h3>
+  <div data-widget="pairs"></div>
+
+  <h3 class="mt">Los seis pares inferiores y los superiores</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Par</th><th>Símbolo</th><th>Variable del par</th><th>Grados de libertad</th><th>Movimiento relativo</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td><b>Revoluta</b> (giratorio, articulación de pasador)</td><td><i>R</i></td><td>Δθ</td><td>1</td><td>Circular</td><td>Bisagra</td></tr>
+        <tr><td><b>Prisma</b> (prismático, articulación de deslizamiento)</td><td><i>P</i></td><td>Δs</td><td>1</td><td>Lineal</td><td>Cajón, pistón en su camisa</td></tr>
+        <tr><td><b>Tornillo</b> (helicoidal)</td><td><i>S</i></td><td>Δθ <b>o</b> Δs (solo una: giro y avance están ligados por el ángulo de la hélice)</td><td>1</td><td>Helicoidal</td><td>Tornillo y tuerca</td></tr>
+        <tr><td><b>Cilindro</b> (cilíndrico)</td><td><i>C</i></td><td>Δθ <b>y</b> Δs (independientes)</td><td>2</td><td>Cilíndrico</td><td>Eje que gira y se desliza en un casquillo</td></tr>
+        <tr><td><b>Esfera</b> (esférico, globular, rótula)</td><td><i>G</i></td><td>Δθ, Δφ, Δψ</td><td>3</td><td>Esférico</td><td>Rótula de dirección, cadera</td></tr>
+        <tr><td><b>Plano</b></td><td><i>F</i></td><td>Δx, Δy, Δθ</td><td>3</td><td>Plano</td><td>Rara vez aparece «sin disfraz» en los mecanismos</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid-2">
+    <div class="mini"><b>Pares superiores</b><span>Todos los demás: contacto por línea o punto. Ejemplos clásicos: dientes de engranes acoplados, una rueda rodando sobre un riel, una leva y su seguidor.</span></div>
+    <div class="mini"><b>Pares envolventes</b><span>Subcategoría de los superiores, con un elemento flexible: banda y polea, cadena y catarina (rueda dentada), cable y tambor.</span></div>
+  </div>
+  </article>
+  <article class="lesson" id="l1-6" data-mod="1" data-les="6" data-title="Ficha tipológica, leyes y ejemplo resuelto" data-obj="Completar la ficha tipológica de un mecanismo y reconocer las leyes que lo rigen." hidden>
+  <h3>Las leyes que se repiten en casi todos los mecanismos</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Ley</th><th>Enunciado</th><th>Dónde la verás</th></tr></thead>
+      <tbody>
+        <tr><td><b>Ley de la palanca</b></td><td>F₁ · d₁ = F₂ · d₂ (momentos iguales en equilibrio)</td><td>Balancín, tijeras, carretilla (lección 9.2)</td></tr>
+        <tr><td><b>Conservación del trabajo</b></td><td>En un modelo ideal cuasiestático con fuerzas constantes alineadas con sus recorridos, F<sub>entrada</sub> · d<sub>entrada</sub> = F<sub>salida</sub> · d<sub>salida</sub>: lo que ganas en fuerza lo pierdes en recorrido</td><td>Poleas, rampas, tornillos, gatos</td></tr>
+        <tr><td><b>Relación de transmisión</b></td><td>i = ω<sub>1</sub>/ω<sub>2</sub> = z<sub>2</sub>/z<sub>1</sub></td><td>Engranes, cadenas, correas (lección 9.3)</td></tr>
+        <tr><td><b>Ley de Pascal</b></td><td>En condiciones hidrostáticas, un incremento de presión aplicado a un fluido confinado se transmite por igual: F₂/F₁ = A₂/A₁</td><td>Gato hidráulico, frenos de auto</td></tr>
+        <tr><td><b>Ecuación de Grübler</b></td><td>M = 3(n − 1) − 2j<sub>p</sub> − j<sub>h</sub></td><td>Cualquier mecanismo plano (módulo 4)</td></tr>
+        <tr><td><b>Criterio de Grashof</b></td><td>s + l ≤ p + q ⇒ algún eslabón gira completo</td><td>Cuatro barras (módulo 5)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt">Ejemplo resuelto: ficha del gato de tijera de un auto</h3>
+  <div class="grid-2 wide-left">
+    <div class="table-wrap" style="margin-top:0">
+      <table>
+        <thead><tr><th>Apartado</th><th>Gato de tijera</th></tr></thead>
+        <tbody>
+          <tr><td><b>Elementos y forma</b></td><td>Base (bancada), cuatro brazos (barras binarias rígidas), tornillo roscado con manivela, bloques roscados, plato superior</td></tr>
+          <tr><td><b>Número</b></td><td>Modelo adoptado: <b>9 eslabones rígidos</b> (bancada, tornillo con manivela, 2 bloques roscados, 4 brazos y plato superior); ninguno flexible ni fluido. Es un modelo ilustrativo: el conteo exacto depende del diseño constructivo y de qué piezas se fijan rígidamente entre sí, y para calcular su movilidad hace falta un diagrama de uniones</td></tr>
+          <tr><td><b>Uniones</b></td><td>Pares giratorios (pernos) en las esquinas · par <b>helicoidal</b> entre el tornillo y los bloques</td></tr>
+          <tr><td><b>Movimientos</b></td><td>La manivela <b>gira</b> → el tornillo <b>gira</b> respecto a la bancada y, por el par helicoidal, los bloques roscados se desplazan a lo largo de él → los bloques se acercan (traslación) → los brazos <b>oscilan</b> → el plato <b>sube</b> en traslación vertical</td></tr>
+          <tr><td><b>Leyes</b></td><td>Tornillo = plano inclinado enrollado: una fuerza pequeña en la manivela vence una carga enorme, pero hay que dar <b>muchas vueltas</b> para subir poco (conservación del trabajo)</td></tr>
+          <tr><td><b>Función</b></td><td>Modifica la fuerza (grupo 1) y transforma el movimiento de giro en subida (grupo 3)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <figure class="vz-demo"><div class="vz-host" data-scene="scissor"></div><figcaption>Los brazos en tijera elevan el plato mientras los bloques se acercan.</figcaption></figure>
+  </div>
+
+  <h3 class="mt">Practica: ficha de una bicicleta (transmisión)</h3>
+  <p>Completa la ficha para el sistema pedal → cadena → rueda trasera: elementos y forma, uniones, movimientos y leyes.</p>
+  <details class="answer">
+    <summary>Ver la solución razonada</summary>
+    <p><b>Elementos y forma:</b> bancada = cuadro; biela con pedal (manivela); plato y piñón (discos dentados); cadena (eslabón <i>flexible</i> formado por muchos eslabones pequeños); rueda trasera.</p>
+    <p><b>Uniones:</b> ejes con rodamientos (pares giratorios) y pares <b>envolventes</b> entre la cadena y las catarinas (plato y piñón).</p>
+    <p><b>Movimientos:</b> rotación continua del pedal → rotación continua de la rueda (transmisión circular a circular), con cambio de velocidad.</p>
+    <p><b>Leyes:</b> relación de transmisión <b>i = ω<sub>entrada</sub>/ω<sub>salida</sub></b>; con el plato como entrada y el piñón como salida, i = z<sub>piñón</sub>/z<sub>plato</sub> (i &lt; 1: la rueda gira más rápido que los pedales); la biela actúa como palanca rotatoria (momento = fuerza × longitud de la biela).</p>
+  </details>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 2 =========================== -->
+<section id="m2" class="module" data-module="2" data-title="Elementos mecánicos y sus movimientos">
+  <article class="lesson" id="l2-1" data-mod="2" data-les="1" data-title="Eslabones y uniones" data-obj="Reconocer los tipos de eslabón, la bancada y qué es una unión." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="linktypes"></div><figcaption><b>Binario, ternario, cuaternario:</b> el nombre indica cuántas uniones tiene el eslabón. Una biela es binaria; una palanca acodada, ternaria.</figcaption></figure><figure class="vz-demo"><div class="vz-host" data-scene="dof3" data-opts='{"mode": "pin"}'></div><figcaption><b>Perno:</b> impide las dos traslaciones y deja libre el giro.</figcaption></figure></div>
+
+  <div class="grid-2">
+    <div class="prose">
+      <h3>Eslabones</h3>
+      <p>Un <b>eslabonamiento</b> es un conjunto de partes rígidas unidas para formar una cadena. Cada parte es un <b>eslabón</b>. Uno de ellos se elige como <b>bancada</b>: el marco respecto al cual se mide el movimiento de los demás (normalmente la pieza que no se mueve, como la base atornillada al suelo).</p>
+      <ul>
+        <li><b>Eslabón simple:</b> tiene solo dos uniones. La <b>manivela</b> es un eslabón simple que gira vueltas completas alrededor de un centro fijo; el <b>balancín</b> oscila entre dos límites e invierte su sentido.</li>
+        <li><b>Eslabón complejo:</b> tiene tres o más uniones. El <b>brazo de balancín</b> pivota cerca de su centro; la <b>manivela de campana</b> es similar pero acodada.</li>
+        <li><b>Acoplador (biela):</b> eslabón flotante que «acopla» el movimiento de otros dos.</li>
+        <li><b>Punto de interés:</b> punto de un eslabón cuyo movimiento se quiere conocer (la punta de la escobilla).</li>
+      </ul>
+      <p class="note"><b>¿Y los resortes?</b> El análisis cinemático habitual trata los eslabones como rígidos; un resorte no es un cuerpo rígido, no impone una relación geométrica fija y por eso no se modela como eslabón. Sin embargo, <b>sí aporta fuerza</b> y debe incluirse en el análisis dinámico.</p>
+    </div>
+    <div class="prose">
+      <h3>Uniones</h3>
+      <p>Una <b>unión</b> es una conexión móvil entre eslabones que permite cierto movimiento relativo y restringe el resto. Se clasifican por el tipo de contacto:</p>
+      <ul>
+        <li><b>Uniones principales (inferiores):</b> contacto de superficie. En el plano son el <b>perno</b> (revoluta) y la <b>corredera</b> (prismática).</li>
+        <li><b>Uniones de orden superior (medias uniones):</b> contacto de línea o de punto. Permiten rotación y deslizamiento simultáneos: la <b>leva</b> y los <b>engranes</b>.</li>
+      </ul>
+      <div class="idea"><b>¿Por qué un perno «quita» 2 grados de libertad?</b> Dos cuerpos libres en el plano tienen movimiento relativo de 3 grados de libertad (dos traslaciones y una rotación). Un perno elimina las dos traslaciones relativas y solo deja la rotación (1 grado de libertad relativo): impone <b>2 restricciones</b>. Una unión de orden superior deja 2 movimientos relativos (rotar y deslizar) e impone <b>1 restricción</b>.</div>
+    </div>
+  </div>
+
+  
+
+  
+  
+  </article>
+  <article class="lesson" id="l2-2" data-mod="2" data-les="2" data-title="Pares cinemáticos" data-obj="Clasificar los pares por contacto y grados de libertad, y distinguir el par ideal de la unión física real." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="dof3" data-opts='{"mode": "free"}'></div><figcaption><b>Sin uniones:</b> una barra en el plano tiene 3 GDL (x, y, θ).</figcaption></figure><figure class="vz-demo"><div class="vz-host" data-scene="dof3" data-opts='{"mode": "slide"}'></div><figcaption><b>Corredera:</b> impide el giro y una traslación; solo desliza.</figcaption></figure></div>
+
+<h3 class="mt">📘 Pares cinemáticos: clasificación rigurosa</h3>
+  <div class="prose wide">
+    <p>Un <b>par cinemático</b> (Reuleaux) es la conexión entre dos eslabones que restringe su movimiento relativo. Se clasifica por el tipo de contacto: <b>pares inferiores</b> (contacto de superficie) y <b>pares superiores</b> (contacto de línea o de punto). La propiedad fundamental es el número <i>f</i> de grados de libertad relativos que conserva el par.</p>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Par</th><th>Contacto</th><th>GDL relativos f</th><th>Restricciones en el plano (3 − f)</th><th>Dónde se usa</th></tr></thead>
+      <tbody>
+        <tr><td>Revoluta (R) — perno</td><td>Superficie cilíndrica</td><td>1</td><td>2</td><td>Plano y espacio · p. ej. bisagra de una tijera</td></tr>
+        <tr><td>Prismática (P) — corredera</td><td>Superficie prismática</td><td>1</td><td>2</td><td>Plano y espacio · p. ej. pistón en su cilindro</td></tr>
+        <tr><td>Leva–seguidor / engranes</td><td>Línea o punto</td><td>2</td><td>1</td><td>Plano (par superior) · p. ej. leva de un motor, reductor de engranes</td></tr>
+        <tr><td>Helicoidal (H) — tornillo</td><td>Superficie helicoidal</td><td>1 (giro y traslación acoplados)</td><td>—</td><td>Espacial; en el plano se modela como P</td></tr>
+        <tr><td>Cilíndrico (C)</td><td>Cilindro</td><td>2 (giro + traslación independientes)</td><td>—</td><td>Espacial</td></tr>
+        <tr><td>Esférico (S)</td><td>Esfera</td><td>3</td><td>—</td><td>Espacial</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <details class="math"><summary>📐 Ampliación matemática: la ecuación de Gruebler como caso de una regla general</summary>
+    <p>Si un par con <i>f</i> GDL relativos impone <b>3 − f</b> restricciones en el plano (y <b>6 − f</b> en el espacio), entonces, sumando sobre todos los pares <i>i</i>:</p>
+    <p class="eq">M<sub>plano</sub> = 3(n − 1) − Σ (3 − f<sub>i</sub>) &nbsp;&nbsp;&nbsp; M<sub>espacial</sub> = 6(n − 1) − Σ (6 − f<sub>i</sub>) &nbsp;(Kutzbach)</p>
+    <p>Con pernos y correderas (f = 1): 3 − 1 = 2 restricciones cada uno → 2j<sub>p</sub>. Con levas y engranes (f = 2): 3 − 2 = 1 → j<sub>h</sub>. Se recupera así la ecuación del capítulo.</p>
+  </details>
+  <div class="grid-2 tight">
+    <div class="prose">
+      <h4>Orden de un eslabón</h4>
+      <ul>
+        <li><b>Binario:</b> 2 uniones (una barra con dos pernos). La manivela y el acoplador de un cuatro barras.</li>
+        <li><b>Ternario:</b> 3 uniones (un triángulo rígido). El brazo de balancín.</li>
+        <li><b>Cuaternario o mayor:</b> 4 o más uniones.</li>
+      </ul>
+      <p><b>Unión múltiple.</b> Un perno compartido por <i>k</i> eslabones equivale a <b>k − 1</b> pares de revoluta superpuestos. Una pieza compuesta (por ejemplo, un rodillo que gira sobre su perno en un brazo) se modela como eslabones separados cuando sus partes se mueven entre sí.</p>
+    </div>
+    <div class="prose">
+      <h4>Par ideal y unión física real</h4>
+      <p>El par cinemático es un modelo: contacto perfecto, sin holgura, sin fricción y sin deformación. En una unión real:</p>
+      <ul>
+        <li>La <b>holgura</b> introduce juego y error de posición.</li>
+        <li>La <b>fricción</b> puede disipar energía y producir desgaste, aunque también permite transmitir fuerzas útiles en algunas máquinas.</li>
+        <li>La <b>elasticidad</b> de los eslabones y de las uniones puede provocar vibraciones y deformaciones.</li>
+      </ul>
+      <p>Por eso el análisis cinemático es una <i>primera aproximación</i> que se complementa con tolerancias, análisis de fuerzas y resistencia.</p>
+    </div>
+  </div>
+  </article>
+  <article class="lesson" id="l2-3" data-mod="2" data-les="3" data-title="Las cuatro uniones fundamentales y los engranes" data-obj="Interpretar el movimiento relativo que permite cada unión y la relación de transmisión de engranes." hidden>
+<h3 class="mt">Las cuatro uniones fundamentales en movimiento</h3>
+  <div class="cards-4">
+    <figure class="card"><canvas id="cv-revolute" class="cv"></canvas>
+      <figcaption><b>Perno</b><br>Solo permite rotación. Principal.</figcaption></figure>
+    <figure class="card"><canvas id="cv-prismatic" class="cv"></canvas>
+      <figcaption><b>Corredera</b><br>Solo permite deslizamiento recto. Principal.</figcaption></figure>
+    <figure class="card"><canvas id="cv-cam" class="cv"></canvas>
+      <figcaption><b>Leva</b><br>Gira y desliza a la vez. Orden superior.</figcaption></figure>
+    <figure class="card"><canvas id="cv-gear" class="cv"></canvas>
+      <figcaption><b>Engranes</b><br>Los dientes ruedan y se deslizan. Orden superior.</figcaption></figure>
+  </div>
+  <div class="def"><b>Antes de las fórmulas: qué significa cada letra</b>
+    <ul>
+      <li><b>z</b> = número de dientes de un engrane (se cuenta). <b>z₁</b> es el engrane de entrada y <b>z₂</b> el de salida.</li>
+      <li><b>ω</b> = velocidad angular: cuánto gira por unidad de tiempo (rpm, °/s o rad/s).</li>
+      <li><b>τ</b> = par o momento: el momento de una fuerza respecto a un eje (N·m).</li>
+      <li><b>P = τ·ω</b> = potencia: cuánta energía se transmite por segundo (W).</li>
+      <li><b>i</b> = relación de transmisión: cuántas veces gira más rápido el engrane de entrada que el de salida.</li>
+      <li><b>η</b> = rendimiento: la fracción de potencia que llega a la salida (entre 0 y 1 en una transmisión pasiva; igual a 1 en el modelo ideal sin pérdidas).</li>
+    </ul>
+    <p><b>Ejemplo.</b> Un engrane de 20 dientes (entrada, 300 rpm) mueve a uno de 60 dientes. Por cada vuelta del pequeño, el grande solo avanza 20 de sus 60 dientes, o sea un tercio de vuelta: gira tres veces más despacio, 300/3 = <b>100 rpm</b> (i = 60/20 = 3). Si no hay pérdidas la potencia es la misma, así que el par se triplica.</p>
+  </div>
+  <div class="panel">
+    <h3>Engranes: relación de transmisión, velocidad y par</h3>
+    <div class="controls" id="ctl-gear"></div>
+    <div class="readout" id="out-gear"></div>
+    <p class="note"><b>Con signo.</b> Para dos engranes <i>exteriores</i>: <b>ω₂/ω₁ = −z₁/z₂</b>; el signo negativo indica giro en sentidos opuestos (con un engrane interior sería positivo). <b>En magnitud:</b> |ω₁/ω₂| = z₂/z₁ = i. Si se conserva la potencia salvo pérdidas (P = τ·ω), la potencia de salida es P₂ = η·P₁ y, por tanto, <b>|τ₂| = η · i · |τ₁|</b>, con rendimiento η &lt; 1. No se «gana fuerza» gratis: se intercambia velocidad por par.</p>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l2-4" data-mod="2" data-les="4" data-title="Uniones de uso común y cadenas cinemáticas" data-obj="Modelar manivela excéntrica, perno en ranura y tornillo, y distinguir cadenas abiertas y cerradas." hidden>
+<h3 class="mt">Uniones y eslabones de uso común</h3>
+  <div class="prose wide"><p>Algunos elementos reales se simplifican, para el análisis plano, a combinaciones de uniones principales. Esto mantiene el mismo movimiento relativo, pero hace el análisis mucho más sencillo.</p></div>
+  <div class="grid-3 big-cards">
+    <figure class="card">
+      <canvas id="cv-eccentric" class="cv"></canvas>
+      <figcaption><b>Manivela excéntrica (cigüeñal)</b><br>Cuando la manivela necesaria es tan corta que no caben dos pernos, se hace un lóbulo circular descentrado. El soporte fijo queda a una distancia <b>e</b> del centro del lóbulo y esa excentricidad es la longitud efectiva de la manivela. Ventaja: gran superficie del perno móvil, menos desgaste. Se usa en motores y compresores.</figcaption>
+    </figure>
+    <figure class="card">
+      <canvas id="cv-slot" class="cv"></canvas>
+      <figcaption><b>Perno en ranura</b><br>Es una unión de orden superior (rota y desliza). Para el análisis se modela con uniones principales: un <b>perno + una corredera</b>, lo que introduce un <b>eslabón adicional</b> ficticio. Los dos modelos producen el mismo movimiento relativo.</figcaption>
+    </figure>
+    <figure class="card">
+      <canvas id="cv-screw" class="cv"></canvas>
+      <figcaption><b>Unión de tornillo</b><br>Los movimientos relativos (giro θ y traslación Δx) están <i>acoplados</i>: queda un solo GDL independiente. Para una rosca de <b>n<sub>e</sub> entradas</b> y paso axial <b>p</b>, el avance por revolución es <b>L = n<sub>e</sub>·p</b> y, para un giro θ en radianes, <b>Δx = L·θ / 2π</b>. El sentido del desplazamiento depende de si gira el tornillo o la tuerca, de cuál queda restringido y desde dónde se observa el eje; por eso se fija una convención de signos antes de aplicar la fórmula. En el plano se modela como una <b>corredera</b>: la rotación fuera del plano no es una coordenada independiente.</figcaption>
+      <div class="controls" id="ctl-screw"></div>
+      <div class="readout" id="out-screw"></div>
+    </figure>
+  </div>
+
+  <h3 class="mt">Cadenas cinemáticas</h3>
+  <div class="grid-2">
+    <div class="prose">
+      <ul>
+        <li><b>Cadena cerrada:</b> cada eslabón se une con otros dos o más (cuatro barras, plataforma de tijera, máquina elíptica de ejercicio).</li>
+        <li><b>Cadena abierta:</b> hay al menos un eslabón conectado a un solo eslabón (brazos robóticos, retroexcavadoras, grúas). Suelen tener varios grados de libertad.</li>
+      </ul>
+    </div>
+    <div class="prose"><p>Un mecanismo plano de cuatro eslabones con cuatro pernos es la cadena cerrada más simple. Una cadena abierta de dos eslabones con dos pernos ya tiene 2 grados de libertad: necesita dos entradas independientes para ubicar su extremo.</p></div>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l2-5" data-mod="2" data-les="5" data-title="Actuadores" data-obj="Elegir un actuador según el movimiento requerido y representarlo cinemáticamente." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="hydraulic"></div><figcaption><b>Actuador hidráulico:</b> la presión del aceite da fuerzas muy grandes en poco espacio (excavadoras, prensas).</figcaption></figure><figure class="vz-demo"><div class="vz-host" data-scene="screw"></div><figcaption><b>Actuador eléctrico lineal:</b> motor + tornillo-tuerca. Preciso y limpio, para fuerzas medias.</figcaption></figure></div>
+
+<h3 class="mt">Actuadores (impulsores)</h3>
+  <div class="prose wide">
+    <p>El <b>actuador</b> recibe energía de una fuente y la convierte en movimiento o fuerza útil para accionar el mecanismo (por ejemplo, un motor eléctrico o un cilindro hidráulico). Se elige según el tipo de movimiento que se necesita (giratorio continuo, lineal de carrera limitada, posicionamiento controlado) y la fuente de energía disponible.</p>
+    <div class="chips" id="act-filters" role="group" aria-label="Filtrar por tipo de movimiento"></div>
+  </div>
+  <div class="act-gallery" id="act-gallery"></div>
+  <div class="grid-2 tight">
+    <figure class="card">
+      <canvas id="cv-cyl" class="cv"></canvas>
+      <figcaption><b>Un cilindro son dos eslabones y una corredera.</b> A la izquierda, el cilindro hidráulico real; a la derecha, su representación cinemática: el cuerpo del cilindro (eslabón A) y el pistón/varilla (eslabón B) unidos por una unión de corredera, con pernos en los extremos. Un actuador de tornillo tiene el mismo diagrama cinemático.</figcaption>
+    </figure>
+    <div class="prose">
+      <div class="idea"><b>Actuador ≠ grado de libertad (siempre).</b> Cada <i>entrada independiente</i> que fija la posición del mecanismo se llama impulsor. Un grado de libertad se puede controlar con un motor, con un cilindro o con la mano. Por eso, al hablar de M hablamos de <b>entradas independientes</b>; la cantidad real de actuadores depende del diseño y del control.</div>
+    </div>
+  </div>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 3 =========================== -->
+<section id="m3" class="module" data-module="3" data-title="Diagramas cinemáticos">
+  <article class="lesson" id="l3-1" data-mod="3" data-les="1" data-title="Concepto, convenciones y símbolos" data-obj="Explicar para qué sirve un diagrama cinemático y reconocer sus símbolos." hidden>
+  <div class="prose wide">
+    <h3>¿Para qué sirve un diagrama cinemático?</h3>
+    <p>El dibujo completo de una máquina real contiene muchos detalles que no afectan el movimiento: carcasas, tornillos, espesores. Un <b>diagrama cinemático</b> conserva solo lo que importa para el movimiento: la <b>distancia entre uniones</b>, el tipo de cada unión y las partes que se mueven. Cumple la misma función que un esquema eléctrico o un diagrama de tuberías: representar solo las variables que gobiernan la función principal.</p>
+    <p>Reglas básicas: hay dos niveles de dibujo. El <b>esquema topológico</b> solo muestra qué eslabones y uniones hay y cómo se conectan (no necesita escala). El <b>diagrama geométrico a escala</b> además conserva longitudes y ángulos reales, y es el que se usa para analizar movimientos. En ambos, los eslabones se <b>numeran</b> (la bancada es el <b>eslabón 1</b>) y las uniones se identifican con <b>letras</b>.</p>
+  </div>
+
+  <div class="cards-4 symbols">
+    <figure class="card sym"><svg viewBox="0 0 120 60" role="img" aria-label="Eslabón simple"><circle cx="20" cy="30" r="6"/><circle cx="100" cy="30" r="6"/><line x1="20" y1="30" x2="100" y2="30"/></svg><figcaption>Eslabón simple (dos uniones)</figcaption></figure>
+    <figure class="card sym"><svg viewBox="0 0 120 60" role="img" aria-label="Eslabón complejo"><polygon points="20,45 100,45 60,12" class="fill"/><circle cx="20" cy="45" r="6"/><circle cx="100" cy="45" r="6"/><circle cx="60" cy="12" r="6"/></svg><figcaption>Eslabón complejo (3+ uniones)</figcaption></figure>
+    <figure class="card sym"><svg viewBox="0 0 120 60" role="img" aria-label="Perno a la bancada"><circle cx="60" cy="25" r="9"/><circle cx="60" cy="25" r="2.5" class="solid"/><path d="M20 50 H100 M28 50 l-8 8 M44 50 l-8 8 M60 50 l-8 8 M76 50 l-8 8 M92 50 l-8 8"/></svg><figcaption>Unión de perno (a la bancada)</figcaption></figure>
+    <figure class="card sym"><svg viewBox="0 0 120 60" role="img" aria-label="Unión de corredera"><path d="M10 14 H110 M10 46 H110"/><rect x="40" y="18" width="40" height="24" class="fill"/><circle cx="60" cy="30" r="5"/></svg><figcaption>Unión de corredera</figcaption></figure>
+    <figure class="card sym"><svg viewBox="0 0 120 60" role="img" aria-label="Unión de leva"><circle cx="48" cy="34" r="20" class="fill"/><circle cx="55" cy="34" r="3" class="solid"/><path d="M30 12 H90 M60 12 V14"/><rect x="64" y="12" width="30" height="5" class="fill"/></svg><figcaption>Unión de leva</figcaption></figure>
+    <figure class="card sym"><svg viewBox="0 0 120 60" role="img" aria-label="Unión de engranes"><circle cx="40" cy="30" r="18" class="fill"/><circle cx="80" cy="30" r="18" class="fill"/><circle cx="40" cy="30" r="3" class="solid"/><circle cx="80" cy="30" r="3" class="solid"/></svg><figcaption>Unión de engranes</figcaption></figure>
+    <figure class="card sym"><svg viewBox="0 0 120 60" role="img" aria-label="Cilindro hidráulico"><rect x="14" y="20" width="50" height="20" class="fill"/><line x1="64" y1="30" x2="106" y2="30"/><line x1="64" y1="23" x2="64" y2="37"/><circle cx="12" cy="30" r="4"/><circle cx="108" cy="30" r="4"/></svg><figcaption>Cilindro: 2 eslabones + corredera</figcaption></figure>
+  </div>
+
+  
+  <div class="idea"><b>Adelanto: movilidad.</b> El último paso del procedimiento de la siguiente lección calcula la <b>movilidad</b> M = 3(n − 1) − 2j<sub>p</sub> − j<sub>h</sub>: cuántas entradas independientes mueven el mecanismo (n = eslabones, j<sub>p</sub> = pernos y correderas, j<sub>h</sub> = levas y engranes). Se deduce con detalle en la lección 4.1; aquí basta usarla como <i>comprobación</i> de que el modelo es coherente con lo que hace la máquina.</div>
+  </article>
+  <article class="lesson" id="l3-2" data-mod="3" data-les="2" data-title="Procedimiento de seis pasos y taller" data-obj="Construir el diagrama cinemático de una máquina siguiendo un procedimiento sistemático." hidden>
+<h3>Procedimiento de seis pasos</h3>
+  <ol class="steps big">
+    <li><b>Bancada.</b> Decide qué parte será el eslabón fijo (1). Si hay una pieza atornillada al suelo o a la mesa, esa es la elección natural. Si nada está fijo (unas pinzas), la elección es arbitraria porque el movimiento <i>relativo</i> no cambia.</li>
+    <li><b>Eslabones.</b> Identifica todas las partes que se mueven y numéralas 2, 3, 4…</li>
+    <li><b>Uniones.</b> Identifica dónde se conectan los eslabones, rotúlalas con letras A, B, C… y determina el tipo de cada una. Atención con tres eslabones sobre un solo perno: se modelan como <b>dos</b> uniones (ver módulo 4).</li>
+    <li><b>Puntos de interés.</b> Marca con X, Y los puntos cuyo movimiento quieres conocer.</li>
+    <li><b>Dibuja</b> el diagrama con los símbolos estándar y a escala.</li>
+    <li><b>Calcula la movilidad</b> para comprobar que el modelo es coherente con lo que hace la máquina.</li>
+  </ol>
+
+  <h3>Taller: construye el diagrama de una máquina real</h3>
+  <div class="panel workshop">
+    <div class="presets" id="ws-machines" role="group" aria-label="Elige una máquina"></div>
+    <div class="grid-2 wide-left">
+      <div>
+        <canvas id="cv-ws" class="cv"></canvas>
+        <p class="ws-hint" id="ws-hint"></p>
+      </div>
+      <div>
+        <div class="ws-steps" id="ws-steps"></div>
+        <div class="ws-body" id="ws-body"></div>
+        <p class="fb" id="ws-fb" role="status"></p>
+      </div>
+    </div>
+    <div class="ws-result" id="ws-result" hidden>
+      <canvas id="cv-ws-diagram" class="cv"></canvas>
+      <div class="readout" id="ws-calc"></div>
+    </div>
+  </div>
+  <p class="note">Las figuras del taller son <b>dibujos pictóricos esquemáticos</b> (una pose del mecanismo). Fíjate en cómo el diagrama cinemático final conserva únicamente barras, pernos y correderas.</p>
+
+  
+  </article>
+  <article class="lesson" id="l3-3" data-mod="3" data-les="3" data-title="Ejemplos resueltos" data-obj="Modelar máquinas reales justificando cada decisión: de lo sencillo a lo complejo." hidden>
+<h3 class="mt">🔧 Ejemplos resueltos de ingeniería</h3>
+  <div class="prose wide"><p>Cada ejemplo sigue la misma secuencia: <b>máquina y condiciones de funcionamiento → eslabones → diagrama → pares y conteo → movilidad y comprobación física</b>. Lo importante es la <i>justificación</i> de cada decisión de modelado.</p></div>
+
+  <details class="worked"><summary>Ejemplo A · Prensa de corte de tableros de circuito</summary>
+    <p class="try"><b>Intenta primero:</b> antes de leer, identifica la bancada, cuenta los eslabones y decide el tipo de cada unión. Después compara.</p>
+    <figure class="ex-fig"><canvas id="cv-exA" class="cv"></canvas><figcaption>Diagrama cinemático esquemático (pose ilustrativa): bancada rayada, tres pernos y una corredera.</figcaption></figure>
+    <ol>
+      <li><b>Máquina y condiciones.</b> La base está atornillada a la mesa y permanece fija. Un mango articulado se mueve con la mano y desplaza una cuchilla que baja guiada verticalmente.</li>
+      <li><b>Eslabones.</b> 1 base (<i>bancada</i>: fija a la mesa; el movimiento de todo lo demás se mide respecto a ella) · 2 mango · 3 cuchilla cortante · 4 barra que une mango y cuchilla. <i>Justificación:</i> la barra es un eslabón distinto porque gira respecto al mango en un perno y respecto a la cuchilla en otro; si estuviera soldada a alguno de ellos, formaría un solo eslabón con él.</li>
+      <li><b>Diagrama cinemático.</b> Bancada con rayado en el pivote del mango; el mango, con el punto de interés X en su extremo; la barra como línea entre dos pernos; la cuchilla como bloque sobre una guía vertical.</li>
+      <li><b>Pares.</b> Pernos: base–mango (A), mango–barra (B), barra–cuchilla (C). Corredera: cuchilla–base (D). Total: j<sub>p</sub> = 3 + 1 = 4; j<sub>h</sub> = 0.</li>
+      <li><b>Movilidad.</b> n = 4 → M = 3(4 − 1) − 2(4) − 0 = <b>1</b>. <i>Comprobación física:</i> al mover solo el mango, la cuchilla queda en una única posición: el modelo es coherente.</li>
+    </ol>
+  </details>
+
+  <details class="worked"><summary>Ejemplo B · Pinzas (sin pieza fija)</summary>
+    <p class="try"><b>Intenta primero:</b> antes de leer, identifica la bancada, cuenta los eslabones y decide el tipo de cada unión. Después compara.</p>
+    <figure class="ex-fig"><canvas id="cv-exB" class="cv"></canvas><figcaption>Diagrama cinemático esquemático: cuatro eslabones y cuatro pernos; la bancada se eligió arbitrariamente.</figcaption></figure>
+    <ol>
+      <li><b>Condiciones.</b> Ninguna pieza está fija al suelo: la elección de bancada es <b>arbitraria</b>. Se toma el mango superior como eslabón 1.</li>
+      <li><b>Eslabones.</b> 1 mango superior (con su mordaza) · 2 mango inferior · 3 mordaza inferior · 4 barra de conexión.</li>
+      <li><b>Pares.</b> Cuatro pernos (A–D), uno por cada pareja de eslabones consecutivos del lazo: j<sub>p</sub> = 4.</li>
+      <li><b>Puntos de interés.</b> X en la punta de la mordaza y Y en el extremo del mango inferior (la relación entre sus movimientos es la <i>ventaja mecánica</i> de la herramienta).</li>
+      <li><b>Movilidad.</b> M = 3(3) − 2(4) = <b>1</b>.</li>
+      <li><b>Inversión.</b> Si se eligiera otro eslabón como bancada, el movimiento relativo entre mango y mordaza sería el mismo; cambiarían las trayectorias vistas desde el marco elegido.</li>
+    </ol>
+  </details>
+
+  <details class="worked"><summary>Ejemplo C · Prensa mecánica (palanca articulada con perno triple)</summary>
+    <p class="try"><b>Intenta primero:</b> antes de leer, identifica la bancada, cuenta los eslabones y decide el tipo de cada unión. Después compara.</p>
+    <figure class="ex-fig"><canvas id="cv-exC" class="cv"></canvas><figcaption>Diagrama cinemático esquemático: el perno central une tres eslabones (E y F superpuestos).</figcaption></figure>
+    <ol>
+      <li><b>Eslabones.</b> 1 base (bancada) · 2 mango · 3, 4 y 6 brazos · 5 cabeza de la prensa: n = 6.</li>
+      <li><b>Pares.</b> Pernos base–mango (A), mango–brazo 3 (B), base–brazo 4 (C), brazo 6–cabeza (D). Un <b>perno único</b> une los brazos 3, 4 y 6: son <b>k = 3 eslabones</b> → <b>k − 1 = 2</b> pernos (E y F). Corredera cabeza–base (G). Total: j<sub>p</sub> = 4 + 2 + 1 = 7.</li>
+      <li><b>Movilidad.</b> M = 3(5) − 2(7) = <b>1</b>. Si se contara un solo perno central, j<sub>p</sub> = 6 y M = 3: <i>no coincide con la máquina real</i>.</li>
+      <li><b>Justificación.</b> Dos o más uniones físicamente superpuestas pueden ser cinemáticamente distintas; la regla k − 1 las cuenta correctamente.</li>
+    </ol>
+  </details>
+
+  <details class="worked"><summary>Ejemplo D · Mesa levadiza (tornillo y perno en ranura)</summary>
+    <p class="try"><b>Intenta primero:</b> antes de leer, identifica la bancada, cuenta los eslabones y decide el tipo de cada unión. Después compara.</p>
+    <figure class="ex-fig"><canvas id="cv-exD" class="cv"></canvas><figcaption>Diagrama cinemático esquemático de la mesa levadiza: la tuerca desliza sobre el tornillo y el eslabón 6 representa la ranura.</figcaption></figure>
+    <ol>
+      <li><b>Bancada.</b> La placa base y todo lo atornillado a ella, incluidos los soportes del tornillo. <i>Modelo reducido:</i> físicamente el tornillo gira respecto a la base, así que no es parte rígida de la bancada. Para estudiar la posición se usa un <b>modelo equivalente</b>: la tuerca como corredera guiada en la base (el giro del tornillo equivale a imponer el desplazamiento de la tuerca).</li>
+      <li><b>Eslabones.</b> 2 tuerca · 3 brazo tuerca–mesa · 4 brazo fijo–ranura · 5 mesa · 6 <b>eslabón extra</b> que representa el perno de la ranura (ver módulo 2: perno en ranura → perno + corredera).</li>
+      <li><b>Pares.</b> Corredera tuerca–base, equivalente al par helicoidal tornillo-tuerca (1); pernos: tuerca–brazo 3 (A), brazos 3–4 (B), brazo 3–eslabón 6 (C), mesa–brazo (D), base–brazo 4 (E) = 5; corredera eslabón 6–mesa (1). Total: j<sub>p</sub> = 5 + 2 = 7.</li>
+      <li><b>Movilidad.</b> n = 6 → M = 3(5) − 2(7) = 15 − 14 = <b>1</b>. La entrada es el giro del mango del tornillo (que equivale a la traslación de la tuerca).</li>
+      <li><b>Error típico.</b> Olvidar el eslabón 6 conduce a un conteo incoherente: la unión de perno en ranura es de orden superior y, modelada con pares principales, requiere un eslabón intermedio.</li>
+    </ol>
+  </details>
+
+
+  
+
+  
+
+  
+
+  
+
+  <details class="worked"><summary>✍ Ejercicio · Modela una tijera de jardinería</summary>
+    <p>Una tijera de podar tiene dos hojas articuladas en un perno central y dos mangos. (a) ¿Cuántos eslabones tiene si cada hoja forma un cuerpo rígido con su mango? (b) ¿Cuántas uniones y de qué tipo? (c) Calcula M. (d) ¿Qué ocurriría con M si se añade un resorte de retorno?</p>
+    <details class="answer"><summary>Ver solución razonada</summary>
+      <p>(a) Hoja+mango forman cada una un solo cuerpo rígido, por tanto <b>n = 2</b> eslabones (uno de ellos, elegido como bancada). (b) Una unión de perno: j<sub>p</sub> = 1. (c) M = 3(2 − 1) − 2(1) = <b>1</b>: abrir o cerrar la tijera posiciona todo con una sola entrada. (d) El resorte <b>no es un eslabón rígido</b> ni modifica M; aporta una fuerza que se incluye en el análisis dinámico.</p>
+    </details>
+  </details>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 4 =========================== -->
+<section id="m4" class="module" data-module="4" data-title="Movilidad y grados de libertad">
+  <article class="lesson" id="l4-1" data-mod="4" data-les="1" data-title="Grados de libertad y ecuación de Gruebler" data-obj="Definir la movilidad, deducir la ecuación de Gruebler e interpretar el valor de M." hidden>
+  <div class="prose wide">
+    <h3>Definición</h3>
+    <p>Los <b>grados de libertad</b> (GDL) o <b>movilidad M</b> de un mecanismo son el número de <b>coordenadas independientes</b> necesarias para definir su configuración respecto a la bancada. Equivalen al número de <b>entradas cinemáticas independientes</b> (impulsores) que hay que aplicar para que todos los eslabones queden en una posición única: por ejemplo, mover un eslabón con la mano, conectar un motor a un eje, o empujar el pistón de un cilindro.</p>
+    <h3>Deducción de la ecuación de Gruebler (Grübler)</h3>
+    <ol class="steps">
+      <li>Un cuerpo rígido libre en el plano tiene <b>3 GDL</b> (x, y, θ).</li>
+      <li>Si hay <b>n</b> eslabones y uno es la bancada (fija), quedan <b>(n − 1)</b> cuerpos móviles → <b>3(n − 1)</b> GDL antes de conectarlos.</li>
+      <li>Cada unión principal (perno o corredera) <b>impone 2 restricciones</b>: resta 2 por cada una.</li>
+      <li>Cada unión de orden superior (leva o engrane) <b>impone 1 restricción</b>: resta 1 por cada una.</li>
+    </ol>
+    <p class="formula">M = 3·(n − 1) − 2·j<sub>p</sub> − j<sub>h</sub></p>
+    <p><b>n</b> = eslabones totales (incluida la bancada) · <b>j<sub>p</sub></b> = uniones principales · <b>j<sub>h</sub></b> = uniones de orden superior.</p>
+    <p class="note"><b>Qué dice M y qué no.</b> M cuenta cuántas coordenadas independientes (entradas) hacen falta cerca de una posición dada: es una propiedad <b>local</b>. Aunque una coordenada sea suficiente localmente, pueden existir varias configuraciones de ensamble (<b>ramas</b>), como las dos posiciones «codo arriba» y «codo abajo» de un cuatro barras (lección <a href="#l5-3">5.3</a>). M te dice cuántas entradas necesitas, no en cuál de las ramas está el mecanismo.</p>
+  </div>
+
+  
+  <div class="grid-2">
+    <div class="panel">
+      <div class="presets" id="mob-presets"></div>
+      <div class="controls" id="ctl-mob"></div>
+      <div class="mob-eq" id="mob-eq"></div>
+      <div class="verdict" id="mob-verdict"></div>
+    </div>
+    <figure class="card">
+      <canvas id="cv-mob" class="cv"></canvas>
+      <figcaption id="mob-cap">Cada eslabón móvil libre aporta 3 grados de libertad; cada unión restringe movimientos relativos.</figcaption>
+    </figure>
+  </div>
+
+  <h3 class="mt">Cómo interpretar el resultado</h3>
+  <div class="grid-3">
+    <div class="mini ok"><b>M = 1</b><span>Una entrada independiente fija la configuración. Es frecuente en mecanismos de transmisión y transformación (cuatro barras, manivela-corredera, prensas, abrazaderas).</span></div>
+    <div class="mini warn"><b>M ≥ 2</b><span>Se requieren varias entradas independientes (brazos robóticos, retroexcavadoras). Cuántos actuadores se usan depende de la arquitectura y del control.</span></div>
+    <div class="mini bad"><b>M ≤ 0</b><span><b>M = 0:</b> estructura en el análisis convencional (sin movimiento finito en el modelo; algunas estructuras pueden tener flexibilidad infinitesimal en posiciones singulares). <b>M &lt; 0:</b> hay más restricciones contabilizadas que grados de libertad iniciales: indica restricciones redundantes o incompatibles. <i>No demuestra por sí solo</i> que el ensamble exista ni que esté bloqueado: decide la geometría.</span></div>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l4-2" data-mod="4" data-les="2" data-title="Aplicación a las máquinas del capítulo" data-obj="Calcular la movilidad de mecanismos reales y comprobarla físicamente." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="fourbar" data-opts='{"label": ""}'></div><figcaption><b>Cuatro barras:</b> n = 4, 4 uniones R → M = 3(4 − 1) − 2·4 = 1.</figcaption></figure><figure class="vz-demo"><div class="vz-host" data-scene="slider"></div><figcaption><b>Manivela-corredera:</b> n = 4, 3 R + 1 P → M = 1: una sola entrada (el giro de la manivela).</figcaption></figure></div>
+
+<h3 class="mt">Ejemplos resueltos del capítulo</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Máquina</th><th>n</th><th>j<sub>p</sub></th><th>j<sub>h</sub></th><th>M = 3(n−1) − 2j<sub>p</sub> − j<sub>h</sub></th><th>Observación</th></tr></thead>
+      <tbody>
+        <tr><td>Prensa de corte (tableros)</td><td>4</td><td>4 (3 pernos + 1 corredera)</td><td>0</td><td>9 − 8 = <b>1</b></td><td>Mover el mango posiciona la cuchilla.</td></tr>
+        <tr><td>Pinzas</td><td>4</td><td>4 pernos</td><td>0</td><td>9 − 8 = <b>1</b></td><td>Bancada arbitraria.</td></tr>
+        <tr><td>Sujetadora de abrazadera</td><td>4</td><td>4 pernos</td><td>0</td><td>9 − 8 = <b>1</b></td><td>Cuatro barras.</td></tr>
+        <tr><td>Trituradora de latas</td><td>4</td><td>4 (3 pernos + 1 corredera)</td><td>0</td><td>9 − 8 = <b>1</b></td><td>Manivela-corredera.</td></tr>
+        <tr><td>Prensa cortadora con engrane</td><td>3</td><td>2 pernos</td><td>1 (engranes)</td><td>6 − 4 − 1 = <b>1</b></td><td>Incluye unión de orden superior.</td></tr>
+        <tr><td>Pie estabilizador de camión</td><td>4</td><td>4 (3 pernos + 1 corredera)</td><td>0</td><td>9 − 8 = <b>1</b></td><td>El cilindro son dos eslabones.</td></tr>
+        <tr><td>Mesa levadiza</td><td>6</td><td>7 (5 pernos + 2 correderas)</td><td>0</td><td>15 − 14 = <b>1</b></td><td>El tornillo se modela como corredera; perno en ranura → eslabón extra.</td></tr>
+        <tr><td>Prensa mecánica (palanca articulada)</td><td>6</td><td>7 (6 pernos + 1 corredera)</td><td>0</td><td>15 − 14 = <b>1</b></td><td>Tres eslabones en un perno → dos uniones.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt">🔧 Ejemplos resueltos y ✍ ejercicios</h3>
+  <details class="worked"><summary>Ejemplo · Brazo robótico planar de cadena abierta</summary>
+    <ol>
+      <li><b>Modelo.</b> Una bancada y tres eslabones móviles conectados en serie por tres pernos: n = 4, j<sub>p</sub> = 3, j<sub>h</sub> = 0.</li>
+      <li><b>Cálculo.</b> M = 3(4 − 1) − 2(3) = <b>3</b>.</li>
+      <li><b>Interpretación.</b> Se necesitan 3 entradas independientes (una por articulación) para ubicar el efector: posición (x, y) <i>y</i> orientación φ. Con solo 2 articulaciones (n = 3): M = 2, se ubica el punto (x, y) pero no la orientación.</li>
+      <li><b>Comprobación.</b> En una cadena abierta no hay lazos, por lo que no hay restricciones redundantes: el conteo es fiable.</li>
+    </ol>
+  </details>
+  
+  
+  
+  </article>
+  <article class="lesson" id="l4-3" data-mod="4" data-les="3" data-title="Casos especiales de la ecuación de movilidad" data-obj="Reconocer uniones coincidentes, restricciones redundantes y grados de libertad inactivos." hidden>
+<h3 class="mt">Casos especiales de la ecuación de movilidad</h3>
+  <div class="prose wide">
+    <p>La ecuación de Gruebler es una <b>regla de conteo</b>: solo mira cuántos eslabones y uniones hay, no sus dimensiones ni su geometría. Por eso hay situaciones en las que hay que usarla con criterio. Explora las tres.</p>
+  </div>
+
+  <div class="special-case">
+    <h4>A · Uniones coincidentes: tres eslabones en un solo perno</h4>
+    <div class="grid-2">
+      <div class="prose">
+        <p>Físicamente, a veces <b>un solo perno</b> atraviesa tres eslabones. Pero, por definición, una unión de perno conecta <b>dos</b> eslabones. Para contar bien, el perno compartido por <i>k</i> eslabones se modela como <b>(k − 1)</b> uniones de perno superpuestas. Con tres eslabones: <b>dos</b> uniones.</p>
+        <p>Es el caso de la prensa mecánica (palanca articulada) del capítulo: n = 6; los pernos A, B, C, D, más el perno triple (que cuenta doble) y la corredera.</p>
+        <div class="presets" id="coinc-toggle" role="group"></div>
+        <div class="mob-eq" id="coinc-eq"></div>
+        <div class="verdict" id="coinc-verdict"></div>
+      </div>
+      <figure class="card"><canvas id="cv-coinc" class="cv"></canvas>
+        <figcaption>Tres brazos (3, 4 y 6) comparten el perno central. La burbuja muestra cuántas uniones debes contar ahí.</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="special-case">
+    <h4>B · Excepciones a la ecuación: cuando la geometría especial permite movimiento</h4>
+    <div class="grid-2">
+      <div class="prose">
+        <p>Este eslabonamiento tiene <b>5 eslabones</b> y <b>6 pernos</b>: la fórmula de Grübler da M = 3(4) − 2(6) = <b>0</b>, resultado que sugeriría una estructura si las restricciones fueran independientes. Sin embargo, si los tres eslabones pivotantes tienen <b>exactamente la misma longitud</b> y la distancia entre sus uniones en la base es la misma que en el acoplador, el mecanismo <b>sí se mueve con 1 GDL</b>: el eslabón central es <b>redundante</b> (no restringe nada nuevo).</p>
+        <div class="controls" id="ctl-exc"></div>
+        <div class="verdict" id="exc-verdict"></div>
+        <p class="note">Moraleja: la ecuación predice el comportamiento <i>en general</i>. Casos con geometría especial pueden contradecirla; ante la duda, analiza el movimiento.</p>
+      </div>
+      <figure class="card"><canvas id="cv-exc" class="cv"></canvas>
+        <figcaption>Cambia la longitud del eslabón central: con una diferencia incluso pequeña, puede dejar de ser ensamblable como mecanismo rígido móvil: cualquier «estiramiento» que muestre el dibujo es solo una señal gráfica del conflicto, no una deformación real calculada.</figcaption></figure>
+    </div>
+  </div>
+
+  <div class="special-case">
+    <h4>C · Grados de libertad inactivos: la leva con seguidor de rodillo</h4>
+    <div class="grid-2">
+      <div class="prose">
+        <p>Una leva con seguidor de rodillo tiene 4 eslabones (bancada, leva, brazo, rodillo), 3 pernos y 1 unión de orden superior: <b>M = 3(3) − 2(3) − 1 = 2</b>. Pero la entrada útil es solo el giro de la leva y la salida es solo la oscilación del brazo. El <b>giro libre del rodillo</b> sobre su perno es un <b>GDL inactivo</b>: no influye en la relación entrada-salida; se agrega para reducir fricción y desgaste.</p>
+        <div class="mob-eq" id="inact-eq"></div>
+        <p class="note"><b>Hipótesis adicional:</b> que el rodillo gire sin deslizar sobre la leva (rodadura pura) es una suposición extra, no una propiedad automática de todo contacto. Si el rodillo desliza o se atasca, el contacto se comporta como un par superior sin giro del rodillo; la relación entrada-salida de la leva no cambia, pero sí el desgaste y la fricción.</p>
+        <div class="readout" id="inact-out"></div>
+      </div>
+      <figure class="card"><canvas id="cv-inact" class="cv"></canvas>
+        <figcaption>Gira la leva (azul): el brazo oscila (verde) y el rodillo (naranja) gira por sí solo. Ese giro es el GDL inactivo.</figcaption></figure>
+    </div>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l4-4" data-mod="4" data-les="4" data-title="Profundización: hipótesis de validez y Jacobiano" data-obj="Identificar las hipótesis de Gruebler y expresar la movilidad como rango del Jacobiano. Incluye ejercicios." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="singular"></div><figcaption><b>Singularidad:</b> cuando el brazo se estira, las dos columnas del Jacobiano se vuelven paralelas y se pierde una dirección de movimiento.</figcaption></figure></div>
+
+<h3 class="mt">📘 Hipótesis de validez</h3>
+  <div class="prose wide">
+    <p>La ecuación M = 3(n − 1) − 2j<sub>p</sub> − j<sub>h</sub> es un <b>conteo</b>. Da la movilidad «en general» (para dimensiones genéricas) siempre que se cumplan estas hipótesis:</p>
+    <ol>
+      <li>El mecanismo es <b>plano</b> y sus eslabones son <b>rígidos</b>.</li>
+      <li>Las uniones son <b>ideales</b> y tienen los grados de libertad de la tabla del módulo 2.</li>
+      <li>La bancada es fija y todas las uniones están correctamente contadas (uniones múltiples como k − 1).</li>
+      <li><b>Las restricciones contabilizadas son independientes</b> (no hay redundancias).</li>
+    </ol>
+    <p>Si falla la hipótesis 4, el conteo <i>subestima</i> la movilidad real. Además, en configuraciones singulares la movilidad instantánea puede ser mayor que la movilidad en configuraciones regulares.</p>
+  </div>
+
+  <details class="math"><summary>📐 Ampliación matemática: movilidad como rango del Jacobiano de las restricciones</summary>
+    <p>Sea <b>q</b> ∈ ℝ<sup>N<sub>q</sub></sup> el vector de coordenadas generalizadas (por ejemplo, posición y orientación de cada eslabón móvil: N<sub>q</sub> = 3(n − 1) en el plano) y <b>Φ(q) = 0</b> el conjunto de ecuaciones de restricción de las uniones. En una configuración <b>regular</b> q₀:</p>
+    <p class="eq">M<sub>local</sub> = N<sub>q</sub> − rango( J ), &nbsp; J = ∂Φ/∂q</p>
+    <p>Si las m = 2j<sub>p</sub> + j<sub>h</sub> restricciones son independientes en q₀, rango(J) = m y se recupera la ecuación de Gruebler. Si hay <b>ρ restricciones redundantes</b> (rango(J) = m − ρ):</p>
+    <p class="eq">M<sub>local</sub> = 3(n − 1) − 2j<sub>p</sub> − j<sub>h</sub> + ρ</p>
+    <p><b>Ejemplo (cuatro barras con coordenadas angulares).</b> q = (θ₂, θ₃, θ₄); el cierre del lazo da 2 ecuaciones: M = 3 − rango(J) = 3 − 2 = <b>1</b>. En el módulo 5 puedes ver ese Jacobiano numéricamente y cómo se anulan sus menores en posiciones singulares.</p>
+    <p class="note">Una <b>singularidad</b> es una configuración donde el rango de J disminuye: allí la movilidad instantánea puede aumentar y el movimiento finito requiere un análisis de orden superior. El rango del Jacobiano explica por qué existen <i>restricciones redundantes</i> (caso B de abajo), pero un análisis completo corresponde a cursos avanzados.</p>
+  </details>
+
+  <details class="math"><summary>📐 Ampliación matemática: ¿por qué «movilidad calculada» y «movilidad observada» pueden diferir?</summary>
+    <ul>
+      <li><b>Conteo erróneo</b> de uniones (caso A): el valor «calculado» es incorrecto porque el modelo está mal planteado.</li>
+      <li><b>Restricciones redundantes</b> (caso B): el valor calculado es el correcto <i>para dimensiones genéricas</i>, pero la geometría especial hace que alguna restricción no aporte nada nuevo (ρ &gt; 0).</li>
+      <li><b>Grados de libertad pasivos o inactivos</b> (caso C): el modelo ideal sí los tiene (la fórmula es correcta), pero no afectan la relación entrada-salida de interés.</li>
+    </ul>
+  </details>
+
+  <h3 class="mt">✍ Ejercicios</h3>
+  <details class="worked"><summary>✍ Ejercicio 1 · Un mecanismo con 7 eslabones, 8 pernos y 1 corredera</summary>
+    <p>Calcula M e interpreta el resultado.</p>
+    <details class="answer"><summary>Ver solución razonada</summary>
+      <p>n = 7; j<sub>p</sub> = 8 + 1 = 9; j<sub>h</sub> = 0. M = 3(6) − 2(9) = 18 − 18 = <b>0</b>. Con restricciones independientes sería una estructura. Antes de concluir, conviene preguntarse si hay <i>uniones múltiples</i> mal contadas o restricciones redundantes por geometría especial; el resultado «0» no prueba por sí solo que sea una estructura.</p>
+    </details>
+  </details>
+  <details class="worked"><summary>✍ Ejercicio 2 · El mecanismo de Peaucellier-Lipkin</summary>
+    <p>Tiene una bancada y siete eslabones móviles: la manivela, dos barras iguales desde el punto fijo O, y un rombo de cuatro barras. Hay pernos <i>triples</i> en O, A, B y D. Calcula M contando correctamente las uniones.</p>
+    <details class="answer"><summary>Ver solución razonada</summary>
+      <p>n = 8. Pernos: P (bancada–manivela) = 1; O (bancada con las dos barras OB y OD: k = 3) = 2; A (manivela con las barras AB y AD: k = 3) = 2; B (OB, AB, BC: k = 3) = 2; D (OD, AD, CD: k = 3) = 2; C (BC y CD: k = 2) = 1. Total j<sub>p</sub> = 1 + 2 + 2 + 2 + 2 + 1 = 10. M = 3(7) − 2(10) = <b>1</b>: una sola entrada (la manivela) define el movimiento.</p>
+    </details>
+  </details>
+  <details class="worked"><summary>✍ Ejercicio 3 · ¿Calculado u observado?</summary>
+    <p>Una leva con seguidor de rodillo da M = 2 con Gruebler. ¿Cuántos actuadores necesita? ¿Cuál es la relación entrada-salida de interés?</p>
+    <details class="answer"><summary>Ver solución razonada</summary>
+      <p>Hace falta <b>una sola entrada</b> (el giro de la leva): el giro del rodillo es un GDL <i>pasivo</i> (inactivo) que no se controla ni afecta la posición del seguidor. M = 2 es correcto para el modelo ideal; la relación de interés es seguidor = f(θ<sub>leva</sub>), de 1 GDL útil. Que el rodillo gire sin deslizar es, además, una hipótesis adicional.</p>
+    </details>
+  </details>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 5 =========================== -->
+<section id="m5" class="module" data-module="5" data-title="Inversión cinemática y mecanismo de cuatro barras">
+  <article class="lesson" id="l5-1" data-mod="5" data-les="1" data-title="Inversión cinemática" data-obj="Distinguir movimiento respecto al marco fijo, movimiento relativo y el efecto de cambiar la bancada." hidden>
+  <div class="prose wide">
+    <h3>Movimiento absoluto y relativo; inversión cinemática</h3>
+    <p>Conviene separar tres ideas: <b>(1)</b> el movimiento <i>respecto al marco fijo declarado</i> (la bancada), que es lo que en este contexto se llama «movimiento absoluto»; <b>(2)</b> el <b>movimiento relativo</b> entre dos eslabones, medido desde un sistema de referencia ligado a uno de ellos; y <b>(3)</b> el movimiento que resulta de <b>escoger otro eslabón como referencia fija</b>.</p>
+    <p>Cambiar la bancada (<b>inversión cinemática</b>) conserva las relaciones geométricas internas de la cadena y, por tanto, el movimiento relativo entre cada pareja de eslabones; modifica las <b>trayectorias y el movimiento observados</b> en el marco fijo. Una cadena de cuatro barras tiene <b>cuatro inversiones</b>: con las mismas barras se obtienen mecanismos que giran, que oscilan o que hacen ambas cosas, según cuál se fije.</p>
+  </div>
+  <details class="predict"><summary>🔮 Predice antes de experimentar</summary>
+    <p>En la cadena de abajo, el eslabón 2 (azul) es el más corto. Si lo <b>fijas</b> como bancada, ¿los dos eslabones adyacentes podrán dar vueltas completas respecto a él? (Respuesta: sí, es una doble manivela). ¿Y si fijas el eslabón opuesto (3)? Comprueba con los botones.</p>
+  </details>
+  <div class="grid-2 wide-left">
+    <figure class="card big">
+      <canvas id="cv-inv" class="cv"></canvas>
+      <figcaption>La misma cadena de cuatro eslabones con diferente bancada. Los números y colores de los eslabones se conservan; el rayado marca cuál está fijo.</figcaption>
+    </figure>
+    <div class="panel">
+      <div class="presets" id="inv-btns" role="group" aria-label="Eslabón fijo"></div>
+      <div class="presets" id="inv-sets" role="group" aria-label="Juego de longitudes"></div>
+      <div class="verdict" id="inv-verdict"></div>
+      <div class="readout" id="inv-out"></div>
+    </div>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l5-2" data-mod="5" data-les="2" data-title="Cuatro barras y criterio de Grashof" data-obj="Clasificar un cuatro barras con el criterio de Grashof y anticipar su movimiento." hidden>
+<div class="prose wide mt">
+    <h3>El mecanismo de cuatro barras</h3>
+    <p>Es el eslabonamiento más simple y frecuente: <b>cuatro eslabones y cuatro pernos</b>, M = 3(3) − 2(4) = 1. Se nombran: <b>bancada</b>, <b>eslabón de entrada</b> (conectado a la fuente de potencia), <b>eslabón de salida</b> o seguidor, y <b>acoplador</b>.</p>
+    <h3>Criterio de Grashof</h3>
+    <p>Ordena las longitudes: <b>s</b> (la más corta), <b>l</b> (la más larga), <b>p</b> y <b>q</b> (las intermedias). El teorema establece que <b>al menos un eslabón puede dar vueltas completas</b> respecto a los demás si:</p>
+    <p class="formula">s + l ≤ p + q</p>
+    <p>Si <b>s + l &gt; p + q</b>, en las inversiones convencionales de cuatro barras ninguno de los eslabones móviles completa una vuelta respecto a la bancada; se obtiene un <b>triple balancín</b>. El caso <b>s + l = p + q</b> es una <b>condición de cambio</b>: durante la rotación completa del eslabón corto aparece al menos una configuración con los eslabones <b>colineales</b> (una singularidad). Allí el movimiento deja de estar determinado únicamente por la entrada: existen <i>varias continuaciones cinemáticas posibles</i> (por ejemplo, seguir como paralelogramo o pasar a «mariposa»); la que ocurra en la realidad depende de las condiciones iniciales, las fuerzas y las perturbaciones. El paralelogramo (g = b, a = c) es el caso más conocido, pero la igualdad de Grashof no implica por sí sola ese comportamiento en todos los mecanismos.</p>
+    <p>Dentro de la desigualdad <b>estricta</b> (s + l &lt; p + q), el tipo depende de <b>cuál eslabón es el más corto</b> respecto a la bancada.</p>
+  </div>
+  <details class="predict"><summary>🔮 Predice: con s + l &lt; p + q, ¿qué pasa si el eslabón más corto es el acoplador?</summary>
+    <p>Ningún eslabón conectado a la bancada puede completar una vuelta (los dos oscilan), pero el acoplador sí gira completo respecto a ellos: es un <b>doble balancín</b>. Compruébalo con el botón «Doble balancín».</p>
+  </details>
+
+  <div class="grid-2 wide-left">
+    <figure class="card big">
+      <canvas id="cv-four" class="cv"></canvas>
+      <figcaption>La línea punteada es la trayectoria de un punto del acoplador. Si la entrada no puede dar vuelta completa, oscila entre sus límites.</figcaption>
+    </figure>
+    <div class="panel">
+      <div class="presets" id="fb-presets"></div>
+      <div class="controls" id="ctl-four"></div>
+      <div class="fb-sum" id="fb-sum"></div>
+      <div class="verdict" id="fb-verdict"></div>
+      <div class="readout" id="fb-info"></div>
+    </div>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Caso</th><th>Criterio</th><th>Eslabón más corto</th><th>Categoría</th><th>Comportamiento</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>s + l &lt; p + q</td><td>La bancada</td><td>Doble manivela (eslabón de arrastre)</td><td>Los dos eslabones fijos a la bancada giran vuelta completa.</td></tr>
+        <tr><td>2</td><td>s + l &lt; p + q</td><td>Adyacente a la bancada</td><td>Manivela-balancín</td><td>El corto gira (manivela); el otro oscila (balancín).</td></tr>
+        <tr><td>3</td><td>s + l &lt; p + q</td><td>El acoplador</td><td>Doble balancín</td><td>Ambos eslabones fijos oscilan; el acoplador gira.</td></tr>
+        <tr><td>4</td><td>s + l = p + q</td><td>Cualquiera</td><td>Punto de cambio</td><td>Configuración colineal singular con varias continuaciones posibles; el paralelogramo es un caso particular.</td></tr>
+        <tr><td>5</td><td>s + l &gt; p + q</td><td>Cualquiera</td><td>Triple balancín</td><td>Ningún eslabón da vuelta completa.</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  
+  <h3 class="mt">🔧 Ejemplo resuelto y ✍ ejercicio</h3>
+  <details class="worked"><summary>Ejemplo 1 · Clasificar el tren de aterrizaje (s = 12, l = 32, p = 30, q = 26 in)</summary>
+    <ol>
+      <li><b>Datos.</b> Longitudes ordenadas: s = 12, l = 32, p = 30, q = 26. El eslabón más corto es adyacente a la bancada.</li>
+      <li><b>Criterio.</b> s + l = 44; p + q = 56. Como 44 &lt; 56, se cumple Grashof con desigualdad estricta.</li>
+      <li><b>Clasificación.</b> Con el más corto adyacente a la bancada: <b>manivela-balancín</b> (caso 2). El eslabón corto gira; el otro eslabón unido a la bancada oscila.</li>
+    </ol>
+  </details>
+  <details class="worked"><summary>✍ Ejercicio 1 · Clasifica: bancada 9, entrada 5, acoplador 6, salida 8 (cm)</summary>
+    <details class="answer"><summary>Ver solución razonada</summary>
+      <p>s = 5, l = 9, p = 6, q = 8 → s + l = 14 y p + q = 14: <b>igualdad</b>, condición de cambio. Al ser Grashof con igualdad, existen configuraciones colineales; el comportamiento posterior (paralelogramo, mariposa u otra continuación) depende de condiciones iniciales y perturbaciones.</p>
+    </details>
+  </details>
+  </article>
+  <article class="lesson" id="l5-3" data-mod="5" data-les="3" data-title="Análisis de posición (ampliación matemática)" data-obj="Resolver la posición del cuatro barras y analizar ángulo de transmisión y singularidades." hidden>
+<h3 class="mt">📐 Ampliación matemática: análisis de posición del cuatro barras</h3>
+  <p class="note">Este análisis pertenece a capítulos posteriores del libro (análisis de posición). Se incluye aquí para justificar <i>por qué</i> los eslabones adoptan determinadas posiciones y para validar los simuladores.</p>
+  <div class="idea"><b>Antes de empezar.</b> Este análisis usa dos herramientas básicas que se comparan en la lección 7.1: la solución <i>gráfica</i> (intersección de dos arcos de compás) y la <i>trigonométrica</i> (ley de cosenos). Si todavía no las has visto, revisa primero <a href="#l7-1">la lección 7.1</a> y vuelve aquí.</div>
+  <div class="prose wide">
+    <h4>Cierre del lazo vectorial</h4>
+    <p>Con la bancada horizontal (θ₁ = 0), el origen en el pivote O₂ y longitudes r₁ (bancada), r₂ (entrada), r₃ (acoplador), r₄ (salida):</p>
+    <p class="eq">r₂ + r₃ − r₄ − r₁ = 0</p>
+    <p class="eq">r₂ cos θ₂ + r₃ cos θ₃ − r₄ cos θ₄ − r₁ = 0<br>r₂ sen θ₂ + r₃ sen θ₃ − r₄ sen θ₄ = 0</p>
+    <p>Son <b>2 ecuaciones</b> con <b>3 incógnitas angulares</b> (θ₂, θ₃, θ₄): una vez dada la entrada θ₂, quedan 2 incógnitas y 2 ecuaciones. Esto es M = 1 en forma analítica.</p>
+    <h4>Solución geométrica</h4>
+    <p>A = (r₂ cos θ₂, r₂ sen θ₂); O₄ = (r₁, 0); d = |A − O₄|. B es la intersección de la circunferencia de radio r₃ centrada en A con la de radio r₄ centrada en O₄:</p>
+    <ul>
+      <li><b>Condición de existencia (desigualdad triangular):</b> |r₃ − r₄| ≤ d ≤ r₃ + r₄. Si no se cumple para un θ₂, no hay ensamble en esa posición.</li>
+      <li><b>Dos ramas</b> (imágenes especulares respecto a la recta A–O₄): B = A + a·û ± h·n̂, con a = (r₃² − r₄² + d²)/(2d), h = √(r₃² − a²). Para pasar de una rama a otra hay que atravesar una posición con h = 0 (acoplador y salida colineales).</li>
+    </ul>
+    <h4>Ángulo de transmisión</h4>
+    <p>Es el ángulo μ entre el acoplador y el eslabón de salida en B. Por la ley de cosenos: <span class="eq-i">cos μ = (r₃² + r₄² − d²) / (2 r₃ r₄)</span>. La componente de la fuerza del acoplador que mueve la salida es proporcional a sen μ; como criterio práctico se busca <b>40° ≤ μ ≤ 140°</b>. <i>Convención:</i> aquí μ es el ángulo entre acoplador y salida medido de 0° a 180°; el <b>ángulo agudo de transmisión</b> usado en diseño es min(μ, 180° − μ), y el criterio equivale a pedir que sea de al menos 40°.</p>
+    <h4>Jacobiano, singularidades y razón de velocidades</h4>
+    <p>Con las coordenadas q = (θ₂, θ₃, θ₄) y las dos ecuaciones de cierre Φ₁, Φ₂:</p>
+    <div class="matrix"><span>J =</span>
+      <table><tr><td>−r₂ sen θ₂</td><td>−r₃ sen θ₃</td><td>r₄ sen θ₄</td></tr><tr><td>r₂ cos θ₂</td><td>r₃ cos θ₃</td><td>−r₄ cos θ₄</td></tr></table></div>
+    <p>Los menores 2×2 valen: <span class="eq-i">M₃₄ = r₃ r₄ sen(θ₃ − θ₄)</span>, <span class="eq-i">M₂₃ = r₂ r₃ sen(θ₃ − θ₂)</span> y <span class="eq-i">M₂₄ = r₂ r₄ sen(θ₂ − θ₄)</span>.</p>
+    <ul>
+      <li>|M₃₄| = r₃ r₄ sen μ: se anula cuando μ = 0° ó 180° (acoplador y salida colineales). Ahí θ₂ deja de ser una buena coordenada local: es una <b>posición límite o punto muerto</b> respecto a la entrada; la relación calculada entre velocidades puede hacerse indefinida o no acotada para una elección concreta de entrada, según las condiciones del numerador y la rama estudiada.</li>
+      <li>rango(J) = 2 mientras algún menor sea distinto de cero → M<sub>local</sub> = 3 − 2 = 1. Solo cuando <b>los tres menores</b> se anulan (todos los eslabones colineales, como en una condición de cambio) rango(J) = 1 y la movilidad instantánea sube a 2: es una <b>singularidad del mecanismo</b>.</li>
+      <li>Derivando el cierre respecto al tiempo, la razón de velocidades angulares es <span class="eq-i">ω₄/ω₂ = r₂ sen(θ₃ − θ₂) / [ r₄ sen(θ₃ − θ₄) ]</span> (se estudia con detalle en capítulos posteriores).</li>
+    </ul>
+  </div>
+
+  <h4 class="mt">🎛 Analizador de posición</h4>
+  <div class="grid-2 wide-left">
+    <figure class="card big">
+      <canvas id="cv-pos" class="cv"></canvas>
+      <figcaption>Solución calculada con las ecuaciones anteriores. La verificación independiente resuelve el lazo con Newton-Raphson y compara.</figcaption>
+    </figure>
+    <div class="panel">
+      <div class="presets" id="pos-branch" role="group" aria-label="Rama de ensamble"></div>
+      <div class="controls" id="ctl-pos"></div>
+      <div class="readout" id="pos-out"></div>
+    </div>
+  </div>
+  <div class="grid-2 tight">
+    <div class="panel"><h4>Jacobiano en esta posición</h4><div class="table-wrap"><table id="pos-jac"></table></div><div class="readout" id="pos-rank"></div></div>
+    <div class="panel"><h4>Posiciones límite y puntos muertos</h4><div class="readout" id="pos-lim"></div></div>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l5-4" data-mod="5" data-les="4" data-title="Aplicación: posición y verificación" data-obj="Resolver un problema numérico de posición y verificarlo con el analizador." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="circles"></div><figcaption><b>Verificación geométrica:</b> el punto B debe estar a la vez a distancia b de A y a distancia c de O₄: son las dos circunferencias.</figcaption></figure></div>
+
+<div class="prose wide"><p>Aplica lo visto en la lección anterior a un caso concreto. Primero <b>resuelve a mano</b>; luego comprueba tus resultados con el analizador de posición (lección 5.3): debes obtener los mismos valores.</p></div>
+  <h3>🔧 Ejemplo resuelto y ✍ ejercicio</h3>
+  <details class="worked"><summary>Ejemplo 2 · Posición de un cuatro barras (r₁ = 4, r₂ = 1,2, r₃ = 3,8, r₄ = 3; θ₂ = 60°)</summary>
+    <ol>
+      <li><b>Punto A.</b> A = (1,2·cos 60°, 1,2·sen 60°) = (0,600; 1,039).</li>
+      <li><b>Distancia a O₄.</b> d = √[(4 − 0,600)² + 1,039²] = √12,640 = 3,555. Existencia: |3,8 − 3| = 0,8 ≤ 3,555 ≤ 6,8 ✔.</li>
+      <li><b>Coeficientes.</b> a = (3,8² − 3² + d²)/(2d) = (14,44 − 9 + 12,64)/7,111 = 2,543; h = √(3,8² − 2,543²) = 2,824.</li>
+      <li><b>Punto B (rama +).</b> B = (3,857; 2,997). Ángulos: θ₃ = 31,0°, θ₄ = 92,7°.</li>
+      <li><b>Transmisión.</b> cos μ = (14,44 + 9 − 12,64)/(2·3,8·3) = 0,4737 → <b>μ = 61,7°</b>, dentro de 40°–140° ✔.</li>
+      <li><b>Razón de velocidades.</b> ω₄/ω₂ = 1,2·sen(31,0° − 60°) / [3·sen(31,0° − 92,7°)] ≈ <b>0,22</b>.</li>
+      <li><b>Verificación.</b> Prueba en el analizador con r₁ = 4, r₂ = 1,2, r₃ = 3,8, r₄ = 3 y θ₂ = 60°: debes obtener los mismos valores.</li>
+    </ol>
+  </details>
+  <details class="worked"><summary>✍ Ejercicio 2 · Con r₁ = 4, r₂ = 1,2, r₃ = 3,8, r₄ = 3 y θ₂ = 120°, calcula d y μ</summary>
+    <details class="answer"><summary>Ver solución razonada</summary>
+      <p>A = (−0,600; 1,039). d² = (4 + 0,600)² + 1,039² = 22,24 → d = 4,716. cos μ = (14,44 + 9 − 22,24)/22,8 = 0,0526 → <b>μ ≈ 87,0°</b>: transmisión casi ideal (cercana a 90°). Las coordenadas de B (rama +) son (2,795; 2,747).</p>
+    </details>
+  </details>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 6 =========================== -->
+<section id="m6" class="module" data-module="6" data-title="Manivela-corredera y mecanismos de propósito especial">
+  <article class="lesson" id="l6-1" data-mod="6" data-les="1" data-title="Manivela-corredera" data-obj="Describir el mecanismo y explorar carrera, desfase y retorno rápido." hidden>
+  <div class="prose wide">
+    <h3>Manivela-corredera</h3>
+    <p>Es una cadena de <b>cuatro eslabones</b> (contando la bancada) conectados con <b>tres uniones de perno y una prismática</b>; por lo tanto M = 3(3) − 2(4) = 1. El eslabón pivote conectado a la bancada es la <b>manivela</b> (no siempre da vuelta completa), el eslabón flotante es la <b>biela</b> (acoplador) y el eslabón que desliza es la <b>corredera</b>. Es el principio del motor de combustión, de bombas manuales, compresores y prensas.</p>
+    <p>Con la manivela de longitud <i>r</i>, la biela de longitud <i>l</i> y la guía a una altura <i>e</i> (desfase) del pivote, la posición de la corredera es:</p>
+    <p class="formula">x(θ) = r·cos θ + √( l² − (r·sin θ − e)² )</p>
+    <p>Con <b>e = 0</b> (en línea) la carrera vale <b>2r</b> y avance y retorno duran lo mismo. Con <b>e ≠ 0</b> (descentrada) cambian los límites geométricos y los puntos muertos dejan de estar a 180°: aparece una diferencia de tiempos entre ida y regreso (<b>retorno rápido</b>). Su derivación se desarrolla a continuación.</p>
+  </div>
+  <div class="grid-2 wide-left">
+    <figure class="card big">
+      <canvas id="cv-slider" class="cv"></canvas>
+      <canvas id="cv-slider-plot" class="cv plot"></canvas>
+      <figcaption>Arriba, el mecanismo; abajo, x(θ). La curva se aparta de la senoide de referencia (línea punteada) porque la biela tiene longitud finita.</figcaption>
+    </figure>
+    <div class="panel">
+      <div class="controls" id="ctl-slider"></div>
+      <div class="readout" id="slider-out"></div>
+      <p class="note">Prueba con <b>e = 0</b>, luego sube e: mira cómo cambian la carrera y la relación de tiempos.</p>
+    </div>
+  </div>
+
+  
+  
+  </article>
+  <article class="lesson" id="l6-2" data-mod="6" data-les="2" data-title="Derivación: posición, carrera y relación de tiempos" data-obj="Deducir la posición de la corredera y calcular la carrera y la relación de tiempos." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="sliderdim"></div><figcaption><b>Figura de referencia:</b> r (manivela), l (biela), e (desfase), θ (ángulo) y x (posición de la corredera).</figcaption></figure></div>
+
+<h3 class="mt">📐 Derivación de la posición, la carrera y la relación de tiempos</h3>
+  <div class="prose wide">
+    <h4>Posición de la corredera</h4>
+    <p>Origen en el pivote O de la manivela; la guía es la recta horizontal y = e. El pasador de la manivela es A = (r cos θ, r sen θ) y la corredera B = (x, e). La biela rígida exige |AB| = l:</p>
+    <p class="eq">(x − r cos θ)² + (e − r sen θ)² = l²</p>
+    <p class="eq">x(θ) = r cos θ ± √( l² − (r sen θ − e)² )</p>
+    <ul>
+      <li><b>Existencia.</b> La raíz es real solo si <b>|r sen θ − e| ≤ l</b>. Para que la manivela pueda dar vueltas completas basta <b>r + |e| ≤ l</b> (peor caso sen θ = ±1).</li>
+      <li><b>Ramas.</b> El signo «+» corresponde a la corredera del lado +x de la manivela (la animada). El signo «−» es el ensamble espejado; con r + |e| &lt; l no se pasa de una rama a otra durante un ciclo completo.</li>
+    </ul>
+    <h4>Puntos muertos y carrera</h4>
+    <p>En los puntos muertos manivela y biela quedan colineales y |OB| = l ± r:</p>
+    <p class="eq">x<sub>máx</sub> = √( (l + r)² − e² ) &nbsp;&nbsp;&nbsp; x<sub>mín</sub> = √( (l − r)² − e² ) &nbsp;&nbsp;&nbsp; carrera s = x<sub>máx</sub> − x<sub>mín</sub></p>
+    <p>Con e = 0: s = (l + r) − (l − r) = <b>2r</b>. Con e ≠ 0, s es ligeramente distinta de 2r.</p>
+    <h4>Relación de tiempos de ida y regreso</h4>
+    <p>Los ángulos de la manivela en los puntos muertos son θ<sub>ext</sub> = atan2(e, x<sub>máx</sub>) (pasador entre O y B) y θ<sub>int</sub> = atan2(e, x<sub>mín</sub>) + 180° (pasador al otro lado de O). Con la manivela girando a ω constante en sentido antihorario, el tiempo es proporcional al ángulo barrido:</p>
+    <ul>
+      <li><b>Carrera de ida</b> (x crece): β<sub>ida</sub> = (θ<sub>ext</sub> − θ<sub>int</sub>) mod 360°.</li>
+      <li><b>Carrera de regreso</b> (x decrece): β<sub>reg</sub> = 360° − β<sub>ida</sub>.</li>
+      <li><b>Desviación angular</b> α = |β<sub>ida</sub> − 180°|: es el ángulo entre las dos rectas de los puntos muertos vistas desde O, es decir α = | atan(e / x<sub>máx</sub>) − atan(e / x<sub>mín</sub>) |.</li>
+      <li><b>Relación de tiempos</b>: Q = t<sub>lento</sub> / t<sub>rápido</sub> = (180° + α) / (180° − α). La carrera que barre más de 180° es la lenta. Con e &gt; 0 y giro antihorario, la lenta es el regreso hacia la manivela; con e &lt; 0 se invierte. Cuál se llama «avance» depende de la aplicación (la carrera de trabajo).</li>
+    </ul>
+    <p class="note">El simulador de arriba calcula todo esto numéricamente y debe coincidir con estas fórmulas.</p>
+  </div>
+  <details class="worked"><summary>🔧 Ejemplo resuelto · r = 5 cm, l = 15 cm, e = 3 cm</summary>
+    <ol>
+      <li><b>Existencia.</b> r + |e| = 8 ≤ 15 ✔ (la manivela puede dar vueltas completas).</li>
+      <li><b>Extremos.</b> x<sub>máx</sub> = √(20² − 3²) = √391 = 19,774 cm; x<sub>mín</sub> = √(10² − 3²) = √91 = 9,539 cm. <b>Carrera s = 10,234 cm</b> (con e = 0 sería 10 cm).</li>
+      <li><b>Ángulos de los puntos muertos.</b> θ<sub>ext</sub> = atan2(3; 19,774) = 8,63°; θ<sub>int</sub> = atan2(3; 9,539) + 180° = 17,46° + 180° = 197,46°.</li>
+      <li><b>Barridos.</b> β<sub>ida</sub> = 8,63° − 197,46° + 360° = 171,17°; β<sub>reg</sub> = 188,83°.</li>
+      <li><b>Desviación y relación.</b> α = 8,83°; Q = (180° + 8,83°)/(180° − 8,83°) = <b>1,103</b>. El regreso tarda un 10,3 % más que la ida.</li>
+      <li><b>Verificación.</b> Con r = 5, l = 15, e = 3 en el simulador, la «relación de tiempos» debe mostrar 1,10.</li>
+    </ol>
+  </details>
+  <details class="worked"><summary>✍ Ejercicio · r = 4 cm, l = 10 cm, e = 2 cm: calcula la carrera y Q</summary>
+    <details class="answer"><summary>Ver solución razonada</summary>
+      <p>Existencia: 4 + 2 = 6 ≤ 10 ✔. x<sub>máx</sub> = √(14² − 2²) = √192 = 13,856; x<sub>mín</sub> = √(6² − 2²) = √32 = 5,657; <b>carrera = 8,199 cm</b>. θ<sub>ext</sub> = atan2(2; 13,856) = 8,21°; θ<sub>int</sub> = atan2(2; 5,657) + 180° = 199,47°. β<sub>ida</sub> = 168,74°, β<sub>reg</sub> = 191,26°, α = 11,26°, <b>Q = 1,133</b>.</p>
+    </details>
+  </details>
+  </article>
+  <article class="lesson" id="l6-3" data-mod="6" data-les="3" data-title="Mecanismos de propósito especial" data-obj="Reconocer el yugo escocés, el paralelogramo, la línea recta y el retorno rápido." hidden>
+<h3 class="mt">Mecanismos de propósito especial</h3>
+  <div class="grid-2">
+    <div>
+      <h4>Yugo escocés</h4>
+      <p class="prose-p">Convierte giro en deslizamiento <b>senoidal exacto</b>: x = r·cos θ. Respecto a la manivela-corredera es más compacto y tiene menos piezas, pero la ranura sufre desgaste rápido.</p>
+      <figure class="card"><canvas id="cv-scotch" class="cv"></canvas></figure>
+      <div class="controls" id="ctl-scotch"></div>
+    </div>
+    <div>
+      <h4>Paralelogramo</h4>
+      <p class="prose-p">Dos brazos iguales y paralelos mantienen la plataforma <b>sin girar</b> (movimiento de traslación) mientras sube y baja. Se usa en básculas, persianas, timones de planeador y transportadores de imprenta. Cuidado con la posición colineal, donde alcanza una configuración singular en la que puede haber más de una continuación geométrica del movimiento.</p>
+      <figure class="card"><canvas id="cv-para" class="cv"></canvas></figure>
+      <div class="controls" id="ctl-para"></div>
+    </div>
+    <div>
+      <h4>Línea recta (Peaucellier-Lipkin)</h4>
+      <p class="prose-p">Genera una recta exacta usando <i>solo</i> pernos: es un <b>inversor</b> geométrico (OA·OC = constante). Históricamente fue valioso porque era difícil fabricar guías prismáticas de calidad. Existen versiones aproximadas, como el eslabonamiento de Watt.</p>
+      <figure class="card"><canvas id="cv-peau" class="cv"></canvas></figure>
+      <div class="controls" id="ctl-peau"></div>
+    </div>
+    <div>
+      <h4>Retorno rápido</h4>
+      <p class="prose-p">Necesario cuando una máquina (limadora, cepillo) debe cortar despacio y regresar rápido con un motor de velocidad constante. Se logra con la manivela-corredera descentrada o con el mecanismo de manivela-cepillo limador.</p>
+      <div class="mini ok"><b>Pruébalo</b><span>En el simulador de la <a href="#l6-1">lección 6.1</a>, mueve el desfase <i>e</i> y observa la «relación de tiempos».</span></div>
+    </div>
+  </div>
+
+  
+  </article>
+  <article class="lesson" id="l6-4" data-mod="6" data-les="4" data-title="Demostraciones de los mecanismos especiales" data-obj="Demostrar por qué cada mecanismo especial produce su movimiento característico." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="scotch"></div><figcaption><b>Yugo escocés:</b> sin biela, la corredera sigue exactamente la proyección horizontal del pasador: x = r·cos θ.</figcaption></figure></div>
+
+<h3 class="mt">📐 Demostraciones de los mecanismos especiales</h3>
+  <div class="grid-2">
+    <div class="prose">
+      <h4>Yugo escocés: movimiento armónico exacto</h4>
+      <p>El pasador de la manivela está en A = (r cos θ, r sen θ) y la ranura vertical obliga al yugo a tener la misma coordenada x que A. Con ω constante (θ = ωt):</p>
+      <p class="eq">x = r cos ωt, &nbsp; v = −r ω sen ωt, &nbsp; a = −r ω² cos ωt</p>
+      <p>Es un movimiento armónico simple <b>exacto</b>. En la manivela-corredera en línea (e = 0), con l ≫ r, x ≈ l − r²/(4l) + r cos θ + (r²/4l) cos 2θ: el armónico fundamental más un <b>segundo armónico</b> de amplitud r²/(4l) que desaparece solo cuando l → ∞.</p>
+    </div>
+    <div class="prose">
+      <h4>Paralelogramo: traslación pura</h4>
+      <p>Sean O₁ y O₂ los pivotes en la bancada y P₁ = O₁ + r û, P₂ = O₂ + r û los pivotes del acoplador (brazos iguales y paralelos, mismo vector r û). Entonces:</p>
+      <p class="eq">P₂ − P₁ = O₂ − O₁ = constante</p>
+      <p>El acoplador conserva su orientación (traslación) y cada punto describe un arco de radio r. <b>Singularidad:</b> si los cuatro eslabones llegan a ser colineales, existen otras continuaciones del movimiento (antiparalelogramo).</p>
+    </div>
+    <div class="prose">
+      <h4>Peaucellier-Lipkin: por qué la recta es exacta</h4>
+      <p>OB = OD = L y el rombo ABCD de lado s. Por simetría O, A y C están alineados. Con M el punto medio de BD: OM² + BM² = L² y AM² + BM² = s². Entonces</p>
+      <p class="eq">OA · OC = (OM − AM)(OM + AM) = OM² − AM² = L² − s² = k</p>
+      <p>C es la <b>inversión</b> de A respecto a O con potencia k. Si A recorre una circunferencia que <b>pasa por O</b> (manivela PA con PA = PO), su inverso es una <b>recta</b> perpendicular a OP, a distancia k/(2·OP) de O. Si PA ≠ PO, el inverso es una circunferencia: C describe un arco, no una recta (pruébalo con el deslizador «PA / PO»).</p>
+    </div>
+    <div class="prose">
+      <h4>Línea recta: exactos y aproximados</h4>
+      <div class="table-wrap"><table>
+        <thead><tr><th>Mecanismo</th><th>Tipo</th><th>Comentario</th></tr></thead>
+        <tbody>
+          <tr><td>Peaucellier-Lipkin</td><td>Exacto</td><td>Inversor; 8 eslabones (M = 1).</td></tr>
+          <tr><td>Watt (cuatro barras)</td><td>Aproximado</td><td>Un punto del acoplador describe un tramo casi recto; el error crece fuera de ese tramo.</td></tr>
+          <tr><td>Guía prismática</td><td>Exacto</td><td>Requiere una unión de corredera de calidad.</td></tr>
+        </tbody></table></div>
+    </div>
+  </div>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 7 =========================== -->
+<section id="m7" class="module" data-module="7" data-title="Herramientas para estudiar mecanismos">
+  <article class="lesson" id="l7-1" data-mod="7" data-les="1" data-title="Cuatro técnicas de análisis" data-obj="Comparar los métodos gráfico, CAD, analítico y computacional sobre una misma configuración." hidden>
+  <div class="prose wide">
+    <p>La mayor parte del análisis de mecanismos es <b>geometría</b>. Existen cuatro enfoques complementarios. Aquí los aplicamos a <b>la misma</b> configuración de cuatro barras, para que veas que son formas distintas de estudiar el mismo sistema.</p>
+  </div>
+  <div class="panel">
+    <div class="tabs" id="an-tabs" role="tablist" aria-label="Técnicas de análisis"></div>
+    <div class="grid-2 wide-left">
+      <div>
+        <canvas id="cv-an" class="cv"></canvas>
+      </div>
+      <div>
+        <div class="controls" id="ctl-an"></div>
+        <div class="an-text" id="an-text"></div>
+        <div class="readout" id="an-out"></div>
+      </div>
+    </div>
+    <div class="table-wrap" id="an-table-wrap" hidden><table id="an-table"></table></div>
+  </div>
+  
+  <div class="grid-2 tight">
+    <div class="prose">
+      <h4>Comparación</h4>
+      <ul>
+        <li><b>Gráfico tradicional:</b> regla, compás y transportador. Muy visual, pero limitado en precisión.</li>
+        <li><b>CAD:</b> mismos principios gráficos con precisión numérica y restricciones geométricas (longitud, paralelismo, perpendicularidad) automáticas.</li>
+        <li><b>Analítico:</b> ecuaciones de trigonometría; resultados exactos, pero laboriosos en mecanismos complejos.</li>
+        <li><b>Computacional:</b> hojas de cálculo, software de análisis dinámico y programación; ideal cuando hay muchas posiciones o iteraciones de diseño.</li>
+      </ul>
+    </div>
+    <div class="prose">
+      <div class="idea"><b>Criterio práctico.</b> Usa el método gráfico para <i>entender</i> y verificar, el analítico para <i>precisión</i> y el computacional para <i>iterar</i> el diseño. En ingeniería real se combinan.</div>
+    </div>
+  </div>
+  </article>
+  <article class="lesson" id="l7-2" data-mod="7" data-les="2" data-title="El mismo problema, tres métodos" data-obj="Resolver una misma posición con distintos métodos y evaluar su error." hidden>
+<h3 class="mt">📐 El mismo problema, tres métodos</h3>
+  <div class="prose wide">
+    <p>Cuatro barras con g = 4 cm, a = 1,2 cm, b = 3,8 cm, c = 3 cm. Se busca la posición de B para el ángulo de entrada θ₂. Compara tres formas de obtenerla y mide su <b>error</b> respecto a la solución numérica de doble precisión.</p>
+    <ul>
+      <li><b>Gráfico:</b> longitudes y ángulo se leen con una resolución (regla, transportador) y la intersección se ubica con esa misma resolución.</li>
+      <li><b>Analítico con calculadora:</b> las fórmulas son exactas, pero cada paso se redondea a 3 cifras significativas.</li>
+      <li><b>Numérico:</b> doble precisión (referencia).</li>
+    </ul>
+  </div>
+  <div class="grid-2 wide-left">
+    <figure class="card"><canvas id="cv-cmp" class="cv"></canvas>
+      <figcaption>Vista ampliada alrededor de B: cada marca es el resultado de un método (escala: 1 mm = 40 px). El círculo es la posición exacta.</figcaption></figure>
+    <div class="panel">
+      <div class="controls" id="ctl-cmp"></div>
+      <div class="table-wrap"><table id="cmp-table"></table></div>
+      <div class="readout" id="cmp-out"></div>
+    </div>
+  </div>
+
+  <p class="note"><b>Modelo de precisión simulada:</b> el «error gráfico» de esta comparación se calcula redondeando longitudes, ángulo y coordenadas a la resolución elegida; no es una medición real sobre papel. Sirve para ver cómo se propaga la resolución de lectura hasta el resultado.</p>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 8 =========================== -->
+<section id="m8" class="module" data-module="8" data-title="Laboratorio final de diseño y evaluación">
+  <article class="lesson" id="l8-1" data-mod="8" data-les="1" data-title="Reto de síntesis y memoria técnica" data-obj="Diseñar un mecanismo que cumpla especificaciones y documentar el diseño." hidden>
+  <h3>Reto de síntesis: diseña un limpiador</h3>
+  <div class="prose wide">
+    <p>Diseña un cuatro barras que cumpla las <b>especificaciones</b>: (1) ensamblable; (2) la <b>manivela de entrada gira completa</b> (motor continuo); (3) la salida <b>oscila</b> con una amplitud entre <b>60° y 100°</b>; (4) <b>ningún eslabón mayor que L<sub>máx</sub></b> (restricción geométrica de espacio); (5) <b>ángulo de transmisión</b> μ dentro de [μ<sub>mín</sub>, 180° − μ<sub>mín</sub>] durante todo el ciclo. Pista: la entrada debe ser el eslabón más corto y cumplirse Grashof. Al terminar, genera la <b>memoria técnica</b> con parámetros, ecuaciones y verificación.</p>
+  </div>
+  <div class="grid-2 wide-left">
+    <figure class="card big"><canvas id="cv-lab" class="cv"></canvas></figure>
+    <div class="panel">
+      <div class="controls" id="ctl-lab"></div>
+      <div class="lab-checks" id="lab-checks"></div>
+      <div class="verdict" id="lab-verdict"></div>
+      <div class="row-btns"><button class="btn" id="lab-memo-btn">Generar memoria técnica</button><button class="btn ghost" id="lab-dl-btn" disabled>Descargar (.html)</button></div>
+    </div>
+  </div>
+
+  <div class="memo" id="memo" hidden></div>
+  </article>
+  <article class="lesson" id="l8-2" data-mod="8" data-les="2" data-title="Autoevaluación con retroalimentación razonada" data-obj="Comprobar el aprendizaje con preguntas que explican el porqué de cada respuesta." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="procflow"></div><figcaption><b>Método:</b> el procedimiento importa más que el número final.</figcaption></figure></div>
+
+<h3 class="mt">Autoevaluación con retroalimentación razonada</h3>
+  <div class="quiz-grid" id="quiz-area"></div>
+  <p class="score" id="score">Aciertos: 0 de 0</p>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 9 =========================== -->
+<section id="m9" class="module" data-module="9" data-title="Clasificación de mecanismos por su función">
+  <article class="lesson" id="l9-1" data-mod="9" data-les="1" data-title="Cómo se clasifican los mecanismos" data-obj="Clasificar un mecanismo por su tipología y por su función, y distinguir transmisión de transformación del movimiento." hidden>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="iomap"></div><figcaption><b>Mapa de clasificación:</b> mismo tipo de movimiento a la entrada y a la salida = transmisión; distinto tipo = transformación.</figcaption></figure></div>
+
+  <h3>Dos criterios de clasificación</h3>
+  <div class="grid-2">
+    <div class="mini"><b>Por su tipología</b><span>Según la <i>naturaleza de las partes</i> que lo componen: barras articuladas, engranes, levas, elementos flexibles (correas, cadenas), tornillos, ruedas de fricción, fluidos…</span></div>
+    <div class="mini"><b>Por su función</b><span>Según el <i>objeto</i> del mecanismo: qué hace con el movimiento y la fuerza que recibe.</span></div>
+  </div>
+  <p class="note">Las dos clasificaciones se combinan: un mismo engrane puede describirse por su tipología («engranes») y por su función («modifica la velocidad»).</p>
+
+  <h3 class="mt">Por su función: transmitir o transformar</h3>
+  <div class="grid-2">
+    <div class="mini ok"><b>Transmisión del movimiento</b><span>La salida tiene el <i>mismo tipo</i> de movimiento que la entrada: <b>lineal → lineal</b> o <b>circular → circular</b>. Ej.: cadena de bicicleta, palanca, ejes.</span></div>
+    <div class="mini warn"><b>Transformación del movimiento</b><span>La salida tiene <i>otro tipo</i>: <b>circular → lineal</b> o <b>lineal → circular</b>. Ej.: piñón-cremallera, pistón-cigüeñal.</span></div>
+  </div>
+
+  <h3 class="mt">Los cuatro grandes grupos</h3>
+  <p class="note">Esta clasificación es una <b>herramienta didáctica</b>, no categorías excluyentes: un tren de engranajes transmite movimiento giratorio y a la vez modifica velocidad y par.</p>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Grupo</th><th>Para qué sirve</th><th>Mecanismos</th><th>Lección</th></tr></thead>
+      <tbody>
+        <tr><td><b>1</b></td><td>Modificar la <b>fuerza</b> de entrada</td><td>Balancín (palanca), polea simple, polea móvil o compuesta, polipasto, manivela</td><td>9.2</td></tr>
+        <tr><td><b>2</b></td><td>Modificar la <b>velocidad</b></td><td>Ruedas de fricción, poleas con correa, engranajes, engranajes con cadena, tornillo sinfín y rueda dentada</td><td>9.3</td></tr>
+        <tr><td><b>3</b></td><td>Modificar el <b>movimiento</b></td><td>Tornillo-tuerca, piñón-cremallera, biela-manivela (pistón-biela-cigüeñal), excéntrica, leva, trinquete</td><td>9.4</td></tr>
+        <tr><td><b>4</b></td><td><b>Otros</b> tipos</td><td>Frenos (regulan el movimiento), mecanismos para acoplar o desacoplar ejes, acumuladores de energía (muelles, volantes de inercia) y amortiguadores, que la disipan</td><td>9.5</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note">Una regla ayuda a ordenarlo todo: <b>lo que se gana en fuerza se pierde en velocidad o recorrido</b> (y al revés). Por eso los grupos 1 y 2 son dos caras de la misma moneda.</p>
+
+  <h3 class="mt">Pruébalo: clasifica cada mecanismo</h3>
+  <div class="vz-widget" data-widget="classifier"></div>
+  </article>
+
+  <article class="lesson" id="l9-2" data-mod="9" data-les="2" data-title="Grupo 1 · Modificar la fuerza de entrada" data-obj="Explicar cómo palancas, poleas y otros mecanismos multiplican la fuerza y qué se paga a cambio." hidden>
+  <h3>El principio: lo que ganas en fuerza lo pagas en recorrido</h3>
+  <div class="def"><b>Ventaja mecánica</b> (sin fricción)
+    <ul>
+      <li>En un mecanismo ideal, cuasiestático y con fuerzas constantes alineadas con sus desplazamientos, trabajo de entrada = trabajo de salida: <b>F<sub>entrada</sub> · d<sub>entrada</sub> = F<sub>salida</sub> · d<sub>salida</sub></b>. En condiciones generales se calculan los trabajos mediante integrales de fuerza a lo largo del recorrido.</li>
+      <li>VM = F<sub>salida</sub> / F<sub>entrada</sub> = d<sub>entrada</sub> / d<sub>salida</sub>. Si VM &gt; 1 multiplicas la fuerza, pero tu mano recorre más distancia.</li>
+      <li>Con fricción, la VM real es menor que la ideal.</li>
+    </ul>
+  </div>
+
+  <h3 class="mt">Balancín y palancas: tres géneros</h3>
+  <p>La ilustración de arriba muestra el <b>1.er género</b> (balancín: el fulcro está en medio; tijeras, alicates, pata de cabra). Compara con los otros dos:</p>
+  <div class="vz-demos">
+    <figure class="vz-demo"><div class="vz-host" data-scene="lever" data-opts='{"cls":2}'></div><figcaption><b>2.º género:</b> la carga está en medio. Carretilla, cascanueces, destapador.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="lever" data-opts='{"cls":3}'></div><figcaption><b>3.er género:</b> el esfuerzo está en medio. Pinzas, caña de pescar, tu antebrazo. Pierdes fuerza, ganas recorrido y velocidad.</figcaption></figure>
+  </div>
+  <div class="vz-widget" data-widget="lever"></div>
+
+  <h3 class="mt">Poleas: simple, móvil, compuesta y polipasto</h3>
+  <div class="vz-demos">
+    <figure class="vz-demo"><div class="vz-host" data-scene="pulley"></div><figcaption>La <b>polea móvil</b> reparte la carga en 2 tramos de cuerda: F = R/2, pero hay que jalar el doble.</figcaption></figure>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Mecanismo</th><th>Fuerza necesaria</th><th>Qué cambia</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td><b>Polea simple (fija)</b></td><td>F = R</td><td>Solo la <i>dirección</i> de la fuerza</td><td>Subir una bandera, pozo de agua</td></tr>
+        <tr><td><b>Polea móvil</b></td><td>F = R / 2</td><td>Mitad de fuerza, doble de cuerda</td><td>Grúa pequeña, veleros</td></tr>
+        <tr><td><b>Polea compuesta / polipasto</b> con <i>n</i> tramos</td><td>F = R / n <i>(ideal, sin rozamiento; n = tramos de cuerda que soportan el bloque móvil)</i></td><td><i>n</i> veces más cuerda por cada metro que sube la carga</td><td>Polipasto de taller, grúa torre</td></tr>
+        <tr><td><b>Manivela</b></td><td>τ = F · r (si la fuerza es perpendicular al brazo)</td><td>Palanca que gira: más radio, menos fuerza</td><td>Torno de pozo, cabrestante, exprimidor</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt">Además: rampa, tornillo e hidráulica</h3>
+  <div class="vz-demos">
+    <figure class="vz-demo"><div class="vz-host" data-scene="incline"></div><figcaption><b>Plano inclinado:</b> menos fuerza, más recorrido. Rampas, cuñas, hachas.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="hydraulic"></div><figcaption><b>Prensa hidráulica:</b> un incremento de presión en un fluido confinado se transmite por igual en condiciones hidrostáticas; en el modelo ideal F₂ = F₁ · A₂/A₁. Gato de garaje, frenos.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="wrench"></div><figcaption><b>Manivela / llave:</b> un brazo largo reduce la fuerza para el mismo momento.</figcaption></figure>
+  </div>
+  </article>
+
+  <article class="lesson" id="l9-3" data-mod="9" data-les="3" data-title="Grupo 2 · Modificar la velocidad" data-obj="Calcular relaciones de transmisión y explicar el compromiso entre velocidad y par." hidden>
+  <h3>Relación de transmisión</h3>
+  <div class="def"><b>i = ω<sub>entrada</sub> / ω<sub>salida</sub></b> (definición general). Se calcula con las dimensiones según el tipo de transmisión:
+    <ul>
+      <li><b>Engranajes:</b> i = z<sub>salida</sub>/z<sub>entrada</sub> (o con diámetros primitivos). <b>Cadenas:</b> con el número de dientes de las catarinas. <b>Correas sin deslizamiento:</b> con los diámetros primitivos de las poleas. <b>Ruedas de fricción:</b> con los diámetros, si no hay deslizamiento. En engranes exteriores el sentido de giro se invierte (signo negativo); en cadenas y correas no.</li>
+      <li><b>i &gt; 1 (reductor):</b> la salida gira más lento y con <b>más par</b>.</li>
+      <li><b>i &lt; 1 (multiplicador):</b> la salida gira más rápido y con <b>menos par</b>.</li>
+      <li>Sin pérdidas, la potencia se conserva: P = M · ω. Con pérdidas, M<sub>salida</sub> = M<sub>entrada</sub> · i · η.</li>
+    </ul>
+  </div>
+  <div class="vz-widget" data-widget="gearcalc"></div>
+
+  <h3 class="mt">Los cinco mecanismos del grupo</h3>
+  <div class="vz-demos">
+    <figure class="vz-demo"><div class="vz-host" data-scene="friction"></div><figcaption><b>Ruedas de fricción:</b> transmiten por rozamiento, sin dientes. Silenciosas, pero pueden patinar.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="gears"></div><figcaption><b>Engranajes:</b> los dientes impiden el patinaje; giran en sentidos opuestos.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="chain"></div><figcaption><b>Poleas con correa o engranajes con cadena (catarinas):</b> unen ejes separados; i = z o d de salida / entrada.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="worm"></div><figcaption><b>Tornillo sinfín y rueda dentada:</b> reducción enorme en poco espacio, con ejes que se cruzan.</figcaption></figure>
+  </div>
+
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Mecanismo</th><th>Ventaja</th><th>Limitación</th><th>Ejemplo</th></tr></thead>
+      <tbody>
+        <tr><td>Ruedas de fricción</td><td>Simples y silenciosas</td><td>Patinan con mucha carga: relación no exacta</td><td>Rodillos de una impresora, tocadiscos antiguos</td></tr>
+        <tr><td>Poleas con correa</td><td>Absorben vibración; sirven de «fusible» si patinan</td><td>La correa se estira y puede deslizar</td><td>Ventilador del motor, lavadoras</td></tr>
+        <tr><td>Engranajes</td><td>Relación exacta, alta potencia</td><td>Ruido y lubricación; ejes cercanos</td><td>Caja de cambios, reloj</td></tr>
+        <tr><td>Cadena y catarinas</td><td>Sin patinaje, ejes separados</td><td>Necesita tensión y engrase</td><td>Bicicleta, moto</td></tr>
+        <tr><td>Sinfín y rueda dentada</td><td>Reducciones muy grandes; puede ser irreversible (la rueda no mueve al sinfín), según el ángulo de la hélice y el rozamiento</td><td>Mucho rozamiento: menor rendimiento</td><td>Clavijas de guitarra, elevadores</td></tr>
+      </tbody>
+    </table>
+  </div>
+  </article>
+
+  <article class="lesson" id="l9-4" data-mod="9" data-les="4" data-title="Grupo 3 · Modificar el movimiento: transformación y transmisión" data-obj="Elegir el mecanismo adecuado para cada pareja entrada-salida de movimiento." hidden>
+  <h3>Transformar: cambiar el tipo de movimiento</h3>
+  <div class="vz-demos">
+    <figure class="vz-demo"><div class="vz-host" data-scene="screw"></div><figcaption><b>Tornillo-tuerca:</b> giro → avance lineal (avance = vueltas × avance por vuelta; en un tornillo de una entrada, el avance por vuelta es el paso).</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="slider"></div><figcaption><b>Biela-manivela (pistón-biela-cigüeñal):</b> pistón (lineal alternativo) ↔ giro. Motores, compresores, bombas.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="cam"></div><figcaption><b>Excéntrica y leva:</b> el giro se convierte en un vaivén lineal con la ley que dibuja el perfil.</figcaption></figure>
+    <figure class="vz-demo"><div class="vz-host" data-scene="ratchet"></div><figcaption><b>Trinquete:</b> convierte un vaivén en un giro intermitente que solo avanza en un sentido.</figcaption></figure>
+  </div>
+
+  <h3 class="mt">Mapa de entrada → salida</h3>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Entrada</th><th>Salida</th><th>Tipo</th><th>Mecanismos</th></tr></thead>
+      <tbody>
+        <tr><td>Circular</td><td>Circular</td><td>Transmisión</td><td>Engranajes, correas, cadenas, ejes</td></tr>
+        <tr><td>Lineal</td><td>Lineal</td><td>Transmisión</td><td>Palancas, sistemas hidráulicos</td></tr>
+        <tr><td>Circular</td><td>Lineal continuo</td><td>Transformación</td><td>Piñón-cremallera, tornillo-tuerca</td></tr>
+        <tr><td>Circular</td><td>Lineal alternativo</td><td>Transformación</td><td>Manivela-biela, excéntrica, leva</td></tr>
+        <tr><td>Lineal alternativo</td><td>Circular</td><td>Transformación</td><td>Pistón-biela-cigüeñal, trinquete</td></tr>
+        <tr><td>Circular</td><td>Oscilante</td><td>Transformación</td><td>Manivela-balancín (cuatro barras), leva con seguidor oscilante</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="grid-2">
+    <div class="mini ok"><b>Pregunta 1</b><span>¿Qué movimiento entra y cuál quiero que salga? Eso decide si <i>transmito</i> o <i>transformo</i>.</span></div>
+    <div class="mini ok"><b>Pregunta 2</b><span>¿Necesito además más fuerza o más velocidad? Eso añade un mecanismo de los grupos 1 o 2.</span></div>
+  </div>
+  </article>
+
+  <article class="lesson" id="l9-5" data-mod="9" data-les="5" data-title="Grupo 4 · Otros tipos de mecanismos" data-obj="Reconocer los mecanismos que regulan el movimiento, acoplan ejes y acumulan energía, y otros mecanismos especiales." hidden>
+  <h3>Regular, acoplar y acumular</h3>
+  <div class="vz-demos">
+    <figure class="vz-demo"><div class="vz-host" data-scene="spring"></div><figcaption><b>Muelles y amortiguadores:</b> el muelle acumula energía; el amortiguador la disipa.</figcaption></figure>
+  </div>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Función</th><th>Mecanismos</th><th>Ejemplos</th></tr></thead>
+      <tbody>
+        <tr><td>Regular el movimiento</td><td>Frenos de tambor y de disco, reguladores</td><td>Frenos de auto y de bicicleta</td></tr>
+        <tr><td>Acoplar o desacoplar ejes</td><td>Embragues, acoplamientos, limitadores de par</td><td>Embrague de un auto, taladro con limitador</td></tr>
+        <tr><td>Acumular energía</td><td>Muelles, volantes de inercia</td><td>Cuerda de un reloj, resorte de suspensión</td></tr>
+        <tr><td>Disipar energía</td><td>Amortiguadores</td><td>Amortiguador de suspensión (convierte el movimiento en calor)</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 class="mt">Mecanismos especiales</h3>
+  <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="geneva"></div><figcaption><b>Ginebra (cruz de Malta):</b> convierte un giro continuo en un giro intermitente: con 4 ranuras avanza 90° por vuelta (en general, 360°/n con n ranuras). Proyectores de cine antiguos, indexadores.</figcaption></figure></div>
+  <div class="grid-3">
+    <div class="mini"><b>Junta cardán</b><span>Une dos ejes que forman un ángulo; en un solo cardán la velocidad de salida oscila.</span></div>
+    <div class="mini"><b>Acoplamiento de Oldham</b><span>Une ejes paralelos algo desalineados.</span></div>
+    <div class="mini"><b>Diferencial</b><span>Reparte el giro entre dos ruedas que pueden girar a distinta velocidad en una curva.</span></div>
+  </div>
+  <p class="note">En la lección 6.3 viste otros mecanismos de propósito especial (línea recta, Peaucellier-Lipkin, yugo escocés). Todos entran en esta clasificación según lo que hagan con la entrada.</p>
+  </article>
+</section>
+
+<!-- =========================== MÓDULO 10 =========================== -->
+<section id="m10" class="module" data-module="10" data-title="El motor bicilíndrico: una máquina y sus mecanismos">
+
+  <article class="lesson" id="l10-1" data-mod="10" data-les="1" data-title="Anatomía del motor y archivos del proyecto" data-obj="Reconocer las 11 piezas del motor y el papel cinemático de cada una." hidden>
+  <div class="prose wide">
+    <h3>Un motor de dos cilindros, visto como mecanismo</h3>
+    <p>Este módulo estudia un <b>motor bicilíndrico en línea con válvulas accionadas por empujadores y balancines</b>. Se modeló en 3D, se le impuso una velocidad constante al cigüeñal y se corrió un estudio de movimiento que entrega las gráficas de <b>posición, velocidad y aceleración</b> de pistones, válvulas, ejes y balancines. Lo analizaremos con los conceptos de los módulos 1 a 9: primero sus piezas, luego un simulador, después <b>cada subsistema con su ficha tipológica</b> y, al final, los resultados.</p>
+    <p class="note"><b>Alcance.</b> Es un análisis <b>cinemático</b>: el cigüeñal se mueve a una velocidad impuesta y se calcula cómo se mueve todo lo demás. No hay combustión, gases ni fuerzas, así que lo que ves es la <i>geometría del movimiento</i>, no la potencia del motor.</p>
+  </div>
+
+  <h3 class="mt">¿El motor es una máquina o un mecanismo?</h3>
+  <div class="def"><b>El conjunto es una máquina; dentro de él hay mecanismos</b>
+    <p>Un motor de combustión interna es una <b>máquina térmica</b>: convierte energía química del combustible, mediante procesos térmicos y mecánicos, en trabajo mecánico útil. Para ello incorpora <b>mecanismos</b> que transforman y transmiten movimiento. El conjunto pistón-biela-cigüeñal es uno de sus mecanismos principales. Máquina y mecanismo no se excluyen: un mecanismo puede formar parte de una máquina, y el mismo conjunto se puede estudiar por su función energética o por sus relaciones cinemáticas.</p>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Componente</th><th>Clasificación</th><th>Función</th></tr></thead>
+    <tbody>
+      <tr><td><b>Motor completo</b></td><td>Máquina térmica</td><td>Transforma la energía química del combustible, mediante la combustión, en trabajo mecánico</td></tr>
+      <tr><td>Pistón – biela – cigüeñal</td><td>Mecanismo manivela-corredera</td><td>Transforma movimiento alternativo en rotatorio</td></tr>
+      <tr><td>Árbol de levas y seguidores</td><td>Mecanismo leva-seguidor</td><td>Controla el movimiento de las válvulas</td></tr>
+      <tr><td>Engranes de distribución</td><td>Transmisión mecánica</td><td>Transmite y sincroniza la rotación</td></tr>
+      <tr><td>Bujía, sistema de combustión, lubricación y refrigeración</td><td>Partes de la máquina que no son mecanismos</td><td>Aportan y controlan la energía</td></tr>
+    </tbody>
+  </table></div>
+  <div class="grid-2">
+    <div class="mini"><b>Análisis cinemático</b><span>Cómo se mueven el pistón, la biela, el cigüeñal y las válvulas, sin calcular las fuerzas que producen el movimiento. <b>Es lo que hace este módulo.</b></span></div>
+    <div class="mini warn"><b>Análisis energético y dinámico</b><span>La combustión, el par motor, las fuerzas, las aceleraciones, las pérdidas y la potencia entregada. El modelo <b>no incluye</b> la combustión, la bujía, el volante de inercia, el embrague ni la caja de cambios.</span></div>
+  </div>
+  <p class="note">Un motor eléctrico también es una máquina, aunque no necesita un mecanismo biela-manivela para producir giro.</p>
+
+  <div class="note mm-two"><b>Antes de seguir: dos cosas distintas.</b>
+    <ul>
+      <li><b>El modelo estudiado</b> (el CAD y su simulación): cigüeñal a 120 °/s y árbol de levas a ≈ 206 °/s, en sentido contrario. Razón ≈ 1,72.</li>
+      <li><b>El motor de cuatro tiempos de referencia</b>: para que cada válvula se abra una sola vez cada dos vueltas del cigüeñal, el árbol de levas debe girar a la <b>mitad</b> de su velocidad. Razón 0,5.</li>
+    </ul>
+    El modelo sirve para estudiar <b>cinemática</b> (cómo se conectan y se mueven las piezas); no está sincronizado como un motor de cuatro tiempos real. En cada lección se indica cuál de los dos se usa.</div>
+
+  <h3 class="mt">El motor en 3D, con su movimiento</h3>
+  <figure class="card big mm-3d" id="mm3d">
+    <div class="mm-3d-stage">
+      <model-viewer id="mm3d-mv" camera-orbit="-45deg 68deg auto" alt="Motor bicilíndrico en 3D con su estudio de movimiento" camera-controls touch-action="pan-y" interaction-prompt="none" shadow-intensity="1" exposure="1.1" environment-image="neutral" animation-name="Estudio de movimiento" autoplay></model-viewer>
+      <div class="mm-3d-ph" role="status">Cargando el modelo 3D…</div>
+    </div>
+    <div class="mm-3d-bar" hidden>
+      <button class="btn small" id="mm3d-play" type="button" aria-pressed="true">⏸ Pausar</button>
+      <input type="range" id="mm3d-t" min="0" max="10" step="0.01" value="0" aria-label="Tiempo de la simulación">
+      <output id="mm3d-time">0,00 s</output>
+      <label class="mm-3d-sp">Velocidad <select id="mm3d-speed"><option value="0.25">×0,25</option><option value="0.5">×0,5</option><option value="1" selected>×1</option><option value="2">×2</option></select></label>
+      <button class="btn small ghost" id="mm3d-rot" type="button" aria-pressed="false">↻ Girar solo</button>
+      <button class="btn small ghost" id="mm3d-reset" type="button">⌂ Vista inicial</button>
+    </div>
+    <figcaption>Es la <b>animación exportada del estudio de movimiento del modelo CAD</b>: 10 s con el cigüeñal a 120 °/s. Arrastra para girar la vista, usa la rueda para acercar, y mueve el control de tiempo para detener cualquier posición y observar cómo se coordinan pistones, levas, balancines y válvulas. Requiere un navegador con WebGL.</figcaption>
+  </figure>
+
+  <figure class="card big mm-vid">
+    <video controls loop muted playsinline preload="metadata" aria-label="Estudio de movimiento del motor"><source src="motor/video/Motor.mp4" type="video/mp4">Tu navegador no puede reproducir este video.</video>
+    <figcaption><b>El mismo estudio de movimiento en video</b> (10 s, cigüeñal a 120 °/s). Fíjate en cómo los dos pistones suben y bajan en oposición, y en cómo cada válvula se abre una sola vez mientras el cigüeñal da varias vueltas.</figcaption>
+  </figure>
+
+  <h3 class="mt">Fotos de las piezas</h3>
+  <div class="mm-gal ph">
+    <figure class="card"><img class="mm-img" src="img/motor-conjunto.jpg" alt="Ensamble completo del motor bicilíndrico" loading="lazy"><figcaption><b>Ensamble completo.</b> Dos cilindros, cigüeñal con su engrane y, arriba, los balancines.</figcaption></figure>
+    <figure class="card"><img class="mm-img" src="img/motor-lateral.jpg" alt="Vista lateral: pistones, bielas y cigüeñal" loading="lazy"><figcaption><b>Vista lateral.</b> Los dos pistones están en posiciones distintas: las muñequillas del cigüeñal están a 180°, así que uno sube mientras el otro baja.</figcaption></figure>
+    <figure class="card"><img class="mm-img" src="motor/img/image13.png" alt="Cigüeñal con dos muñequillas y engrane" loading="lazy"><figcaption><b>Cigüeñal.</b> Dos muñequillas opuestas (180°) y el engrane que mueve al árbol de levas.</figcaption></figure>
+    <figure class="card"><img class="mm-img" src="img/motor-distribucion.jpg" alt="Vista trasera: árbol de levas, empujadores y balancines" loading="lazy"><figcaption><b>Distribución.</b> El árbol de levas con su engrane, los empujadores y los balancines que abren las válvulas.</figcaption></figure>
+    <figure class="card"><img class="mm-img" src="motor/img/image18.png" alt="Balancines sobre su eje" loading="lazy"><figcaption><b>Balancines</b> pivotando sobre su eje: reciben el empujador y presionan la válvula.</figcaption></figure>
+    <figure class="card"><img class="mm-img" src="motor/img/image9.png" alt="Válvula con su resorte" loading="lazy"><figcaption><b>Válvula con resorte.</b> El resorte la mantiene cerrada y devuelve el seguidor a la leva.</figcaption></figure>
+  </div>
+
+  <h3 class="mt">Las 11 piezas y su papel cinemático</h3>
+  <div class="table-wrap"><table>
+    <thead><tr><th>#</th><th>Pieza (nombre en el modelo)</th><th>Qué hace</th><th>Rol en el mecanismo</th></tr></thead>
+    <tbody>
+      <tr><td>1</td><td>Base (<code>1_Base</code>)</td><td>Bloque, cilindros, culata y soportes</td><td><b>Bancada</b>: eslabón fijo (eslabón 1)</td></tr>
+      <tr><td>2</td><td>Pistón (<code>2_Piston</code>)</td><td>Sube y baja dentro del cilindro</td><td><b>Corredera</b> (salida lineal) con un par prismático</td></tr>
+      <tr><td>3</td><td>Pasador del pistón (<code>3_Piston_Pin</code>)</td><td>Une pistón y biela</td><td>Par de <b>perno</b> (revoluta) biela–pistón</td></tr>
+      <tr><td>5</td><td>Biela (<code>5_Viela</code>)</td><td>Une pistón y cigüeñal</td><td><b>Acoplador</b> del manivela-corredera</td></tr>
+      <tr><td>6</td><td>Cigüeñal (<code>6_Crank_Shaft</code>, 2 piezas unidas: una por cilindro)</td><td>Gira; tiene dos muñequillas a 180°</td><td><b>Manivela</b>: eslabón de <b>entrada</b></td></tr>
+      <tr><td>8</td><td>Engrane del cigüeñal (<code>8_CrankShaft_Sprocket</code>)</td><td>Toma el giro del cigüeñal y lo pasa al árbol de levas</td><td>Engrane motriz: par de <b>contacto de dientes</b> (par superior)</td></tr>
+      <tr><td>9</td><td>Árbol de levas (<code>9_CamShaft</code>)</td><td>Lleva las levas; gira en sentido opuesto al cigüeñal</td><td><b>Leva</b> y engrane conducido</td></tr>
+      <tr><td>4</td><td>Empujador (<code>4_Push_Rod</code>)</td><td>Sube cuando el lóbulo de la leva lo empuja</td><td><b>Seguidor</b> de la leva (par superior), guiado por la bancada</td></tr>
+      <tr><td>7</td><td>Balancín (<code>7_Rocker_Arm</code>)</td><td>Gira alrededor de su eje: un extremo sube y el otro baja</td><td><b>Palanca</b> que invierte el sentido del movimiento</td></tr>
+      <tr><td>10</td><td>Eje de balancines (<code>10_Arbor</code>)</td><td>Eje fijo sobre el que pivotan los balancines</td><td>Par de perno con la bancada</td></tr>
+      <tr><td>11</td><td>Válvula (<code>11_Valve</code>)</td><td>Abre y cierra el paso de gases; lleva un resorte</td><td><b>Seguidor final</b>: salida lineal; cierre por fuerza (resorte)</td></tr>
+    </tbody>
+  </table></div>
+
+  </article>
+
+  <article class="lesson" id="l10-2" data-mod="10" data-les="2" data-title="Cómo funciona: simulador del motor" data-obj="Seguir el movimiento desde el cigüeñal hasta la válvula y ver cómo cambian posición, velocidad y aceleración." hidden>
+  <div class="prose wide">
+    <h3>La cadena de movimiento, paso a paso</h3>
+    <ol>
+      <li><b>Entrada.</b> El cigüeñal gira a una velocidad ω. En un motor real la fuerza de los gases empuja los pistones y estos hacen girar el cigüeñal; aquí se impone ω y se estudia qué hace el resto.</li>
+      <li><b>Biela-manivela (módulo 6).</b> Cada pistón está unido a su muñequilla por una biela: el giro se convierte en un vaivén lineal. Las dos muñequillas están a 180°, por eso cuando un pistón sube el otro baja.</li>
+      <li><b>Engranes (módulo 2 y 9).</b> Un engrane en el cigüeñal mueve a otro en el árbol de levas. La razón de velocidades es Z<sub>c</sub>/Z<sub>k</sub> y el sentido se invierte (engranes exteriores). En el <b>modelo estudiado</b> vale ≈ 1,72; en un <b>cuatro tiempos de referencia</b>, 0,5 (ver el aviso de 10.1).</li>
+      <li><b>Leva y seguidor (módulo 2).</b> Cada leva tiene un lóbulo; al pasar bajo el empujador lo levanta y luego lo deja bajar.</li>
+      <li><b>Balancín (módulo 9, palanca).</b> El empujador sube el extremo izquierdo del balancín; por ser una palanca, el extremo derecho <i>baja</i> y presiona la válvula.</li>
+      <li><b>Válvula.</b> Se abre al ser empujada y el resorte la cierra cuando el lóbulo se retira (cierre por fuerza).</li>
+    </ol>
+    <p class="note">Cada paso se analiza a fondo en las lecciones <a href="#l10-3">10.3</a> y <a href="#l10-4">10.4</a>: entrada, salida, tipo de movimiento, pares y movilidad.</p>
+  </div>
+
+  <figure class="card big">
+    <canvas id="cv-motor" class="cv"></canvas>
+    <canvas id="cv-motor-gears" class="cv plot"></canvas>
+    <figcaption>El motor se dibuja en <b>vista desplegada</b>: cada cilindro en su panel (en el motor real están uno detrás del otro, sobre el mismo cigüeñal). Abajo, el tren de engranes cigüeñal → árbol de levas.</figcaption>
+  </figure>
+  <div class="panel mm-panel">
+    <div><div class="controls" id="ctl-motor"></div></div>
+    <div>
+      <p class="mm-lbl">Relaciones de engranes</p>
+      <div class="mm-btns" id="motor-presets"></div>
+      <div class="readout" id="motor-out"></div>
+      <p class="note">Prueba <b>Cuatro tiempos real (0,5)</b>: la leva gira a la mitad de la velocidad del cigüeñal y cada válvula se abre una vez cada dos vueltas.</p>
+    </div>
+  </div>
+
+  <figure class="card big mm-plotcard">
+    <canvas id="cv-motor-plot" class="cv"></canvas>
+    <div class="mm-ctrls"><span class="mm-lbl">Elemento</span><div class="mm-btns" id="motor-body"></div><span class="mm-lbl">Magnitud</span><div class="mm-btns" id="motor-q"></div></div>
+    <figcaption>La línea punteada marca el ángulo actual del cigüeñal. En los pistones, la velocidad es casi senoidal y la aceleración <b>no</b>: la biela de longitud finita añade un segundo armónico. En las válvulas, la aceleración cambia bruscamente donde empieza y termina el lóbulo, por eso importa el perfil de la leva.</figcaption>
+  </figure>
+
+  <div class="prose wide">
+    <h3 class="mt">Un ciclo de cuatro tiempos (motor de referencia)</h3>
+    <p>En un motor de cuatro tiempos cada cilindro pasa por <b>admisión, compresión, expansión y escape</b>: son <b>dos vueltas del cigüeñal</b> (720°) por cada ciclo. Cada válvula debe abrirse <b>una sola vez</b> en ese ciclo, así que el árbol de levas debe girar a la <b>mitad</b> de la velocidad del cigüeñal (Zc/Zk = 0,5). Con las muñequillas a 180°, los pistones se mueven en oposición y con dos cilindros que completan cada uno su ciclo de cuatro tiempos se producen, en promedio, dos carreras de expansión cada 720° (una por vuelta del cigüeñal), aunque los encendidos no tienen por qué estar igualmente espaciados.</p>
+    <p class="note"><b>Lo que midió el análisis del modelo.</b> El cigüeñal gira a <b>120 °/s</b> y el árbol de levas a <b>206 °/s</b>, en sentido contrario: |ω<sub>levas</sub>/ω<sub>cigüeñal</sub>| = 206/120 ≈ <b>1,72</b>, no 0,5. El modelo es una herramienta de cinemática, no un motor sincronizado de cuatro tiempos. Con el botón <i>Cuatro tiempos real</i> del simulador puedes ver cómo cambiaría el movimiento si la relación fuera 0,5.</p>
+    <p class="note"><b>Sobre el simulador.</b> Es un modelo geométrico ideal con un lóbulo por leva, alzada ajustable y piezas rígidas. La alzada reportada para el estudio es del orden de 0,3 mm; el simulador ilustrativo amplifica visualmente ese desplazamiento y no debe utilizarse para medir la geometría real.</p>
+  </div>
+  </article>
+
+  <article class="lesson" id="l10-3" data-mod="10" data-les="3" data-title="Subsistemas 1 y 2: pistón-biela-cigüeñal y engranes" data-obj="Analizar con la ficha tipológica el mecanismo biela-manivela y el tren de engranes del motor: entrada, salida, pares, movilidad y leyes." hidden>
+  <div class="prose wide">
+    <h3>Cómo se analiza cada sistema del motor</h3>
+    <p>El motor no es un solo mecanismo: es una <b>cadena de subsistemas</b>, cada uno con su propia entrada, su propia salida y su propia función. Para cada uno se completa la <b>ficha tipológica</b> de la lección <a href="#l1-6">1.6</a>: <b>elementos y forma · número · uniones · movimientos · leyes</b>, y al final su <b>función</b>: ¿transmite o transforma el movimiento?, ¿es lineal o circular a la entrada y a la salida?, ¿qué modifica: fuerza, velocidad o movimiento? (módulo <a href="#l9-1">9</a>).</p>
+    <div class="mm-chain" aria-label="Cadena de subsistemas del motor">
+      <span class="mm-step a">① Pistón–biela–cigüeñal</span><i>→</i><span class="mm-step b">② Engranes</span><i>→</i><span class="mm-step c">③ Leva–empujador</span><i>→</i><span class="mm-step d">④ Balancín</span><i>→</i><span class="mm-step e">⑤ Válvula y resorte</span>
+    </div>
+    <p class="note">En esta lección van el ① y el ②; en la siguiente, del ③ al ⑤. Todas las movilidades se calculan con la ecuación de Grübler del módulo <a href="#l4-1">4</a>: M = 3(n − 1) − 2j<sub>p</sub> − j<sub>h</sub>.</p>
+  </div>
+
+  <section class="mm-sys" id="sys-a">
+    <h3 class="mt">① Pistón – biela – cigüeñal (manivela-corredera)</h3>
+    <div class="mm-flow">
+      <div class="mm-io"><small>Entrada</small>Giro del cigüeñal<br><span>movimiento <b>circular</b></span></div>
+      <span class="mm-arrow" aria-hidden="true">→</span>
+      <div class="mm-io"><small>Salida</small>Vaivén del pistón<br><span>movimiento <b>lineal</b></span></div>
+      <div class="mm-tags"><span class="mm-tag t">Transformación</span><span class="mm-tag">circular → lineal</span><span class="mm-tag">Grupo 3 · biela-manivela</span></div>
+    </div>
+    <div class="grid-2 wide-left">
+      <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="slider"></div><figcaption><b>Manivela-corredera:</b> el giro de la manivela (cigüeñal) mueve la biela, y esta empuja a la corredera (pistón) en línea recta.</figcaption></figure></div>
+      <div class="prose">
+        <h4>Paso a paso</h4>
+        <p>En un motor hay una pieza que sube y baja dentro de un cilindro: el <b>pistón</b>. Pero casi siempre necesitamos un movimiento de <b>giro</b> (por ejemplo, para mover las ruedas). ¿Cómo se convierte uno en otro? Con un mecanismo llamado <b>biela-manivela</b>, que tiene tres piezas móviles:</p>
+        <ul>
+          <li><b>Pistón:</b> se mueve en línea recta dentro del cilindro.</li>
+          <li><b>Biela:</b> barra articulada que une el pistón con el cigüeñal y transmite esfuerzos entre ellos.</li>
+          <li><b>Cigüeñal:</b> eje con apoyos descentrados llamados <b>muñequillas</b>, donde se articulan las bielas.</li>
+        </ul>
+        <p><b>¿Qué pasa durante una vuelta?</b> Al girar el cigüeñal, la muñequilla recorre una circunferencia. Como la biela no cambia de longitud, obliga al pistón a subir y bajar. La distancia entre sus dos posiciones extremas se llama <b>carrera</b>. Si la muñequilla está a una distancia <i>r</i> del eje de giro, entonces <b>carrera = 2r</b>.</p>
+        <p><b>Ejemplo.</b> Con r = 5 mm, la carrera es 2 × 5 = <b>10 mm</b>. En una vuelta completa el pistón recorre 20 mm de trayecto (10 de ida y 10 de regreso), pero su <i>desplazamiento neto</i> es cero porque vuelve al punto de partida (la diferencia entre distancia y desplazamiento de la lección <a href="#l1-2">1.2</a>).</p>
+        <p>En un motor real el flujo va al revés: los gases empujan el pistón y este hace girar el cigüeñal (<b>lineal → circular</b>). El mecanismo puede funcionar en los dos sentidos, salvo en los puntos muertos. En el modelo que estudiamos se impone el giro y se calcula el movimiento del pistón.</p>
+        <details class="answer"><summary>Ahora comprueba: si r pasa de 5 a 8 mm, ¿cuál es la nueva carrera? ¿hay que cambiar la longitud de la biela?</summary>
+          <p>Carrera = 2 × 8 = <b>16 mm</b>. La biela <b>no tiene que cambiar</b> para que cambie la carrera: en este mecanismo la carrera depende de r. Lo que la longitud l de la biela modifica es <i>cómo</i> varían la posición, la velocidad y la aceleración durante la vuelta, y el ángulo máximo que forma la biela con el cilindro, arcsen(r/l). Eso sí: debe cumplirse l ≥ r para que la manivela pueda girar completa.</p>
+        </details>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="mm-ficha">
+      <thead><tr><th>Apartado</th><th>Pistón – biela – cigüeñal</th></tr></thead>
+      <tbody>
+        <tr><th>Elementos y forma</th><td>Cigüeñal (eje acodado con muñequilla) = <b>manivela</b>; biela (barra rígida) = <b>acoplador</b>; pistón (émbolo cilíndrico) = <b>deslizadera</b>; bloque y cilindro = <b>bancada</b>.</td></tr>
+        <tr><th>Número</th><td><b>4 eslabones</b> por cilindro (bancada, manivela, biela, pistón), todos rígidos. Con dos cilindros se comparten la bancada y el cigüeñal. La biela es un eslabón <b>binario</b> (dos pares).</td></tr>
+        <tr><th>Uniones</th><td><b>3 pares de perno</b> (R): bancada–cigüeñal, cigüeñal–biela y biela–pistón (el pasador del pistón); <b>1 par prismático</b> (P): pistón–camisa. Todos son pares <b>inferiores</b>, de <b>clase 1</b> (1 GDL) y de <b>cierre por forma</b>.</td></tr>
+        <tr><th>Movimientos</th><td>Cigüeñal: <b>rotación pura</b> · Biela: <b>movimiento plano general</b> (gira y se traslada; oscila hasta arcsen(r/l) a cada lado) · Pistón: <b>traslación rectilínea</b> alternativa.</td></tr>
+        <tr><th>Leyes</th><td>Posición y(θ) = r·cos θ + √(l² − r²·sen²θ) · carrera = 2r · v ≈ −rω(sen θ + (λ/2)·sen 2θ) · a ≈ −rω²(cos θ + λ·cos 2θ), con λ = r/l (lección <a href="#l6-2">6.2</a>). <b>Movilidad:</b> M = 3(4 − 1) − 2(4) − 0 = <b>1</b>.</td></tr>
+        <tr><th>Función</th><td><b>Transforma</b> el movimiento (circular ↔ lineal). Por sí sola no multiplica la fuerza: conserva el trabajo, F·ds = τ·dθ.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid-2">
+      <div class="mini"><b>Puntos muertos</b><span>Cuando biela y manivela quedan en línea (θ = 0° y 180°), la fuerza del pistón no produce par: τ = F·r·sen(θ + φ)/cos φ, con sen φ = λ·sen θ, se anula. El pistón se detiene (v = 0) y su aceleración es máxima: |a| = rω²(1 + λ) arriba y rω²(1 − λ) abajo.</span></div>
+      <div class="mini warn"><b>Con las muñequillas a 180°</b><span>Los dos pistones se desplazan en oposición en la componente fundamental del movimiento, lo que puede reducir ciertas fuerzas de inercia alternativas; la compensación completa depende de las masas, la geometría y los armónicos secundarios. Pero ambos pasan por sus puntos muertos a la vez: en un motor real es el volante de inercia (que este modelo no incluye) el que ayuda a cruzarlos.</span></div>
+    </div>
+    <p class="note"><b>Con los datos de la simulación</b> (r = 5 mm, l = 20 mm): carrera = 10 mm, λ = 0,25, ángulo máximo de la biela = arcsen(0,25) ≈ 14,5° y la aceleración en el punto muerto superior es 25 % mayor que rω². Compruébalo moviendo <i>r</i> y <i>l</i> en el simulador (10.2).</p>
+  </section>
+
+  <section class="mm-sys" id="sys-b">
+    <h3 class="mt">② Tren de engranes: cigüeñal → árbol de levas</h3>
+    <div class="mm-flow">
+      <div class="mm-io"><small>Entrada</small>Giro del cigüeñal<br><span>movimiento <b>circular</b></span></div>
+      <span class="mm-arrow" aria-hidden="true">→</span>
+      <div class="mm-io"><small>Salida</small>Giro del árbol de levas<br><span>movimiento <b>circular</b>, sentido opuesto</span></div>
+      <div class="mm-tags"><span class="mm-tag">Transmisión</span><span class="mm-tag">circular → circular</span><span class="mm-tag">Grupo 2 · modifica la velocidad</span></div>
+    </div>
+    <div class="grid-2 wide-left">
+      <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="gears"></div><figcaption><b>Dos engranes exteriores:</b> el menor gira más rápido y los dos giran en sentidos opuestos.</figcaption></figure></div>
+      <div class="prose">
+        <h4>Cómo funciona</h4>
+        <p>El engrane del cigüeñal engrana con el del árbol de levas. En dos engranajes ideales de ejes fijos y dentado compatible, la relación entre velocidades angulares es constante, con signos opuestos cuando el engrane es exterior: ω<sub>levas</sub> = ω<sub>cigüeñal</sub> · Z<sub>c</sub>/Z<sub>k</sub>.</p>
+        <p>Su función en el motor es <b>sincronizar</b>: cada válvula debe abrirse en el momento justo del movimiento de su pistón. Por eso la relación de dientes es la pieza clave de la distribución.</p>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="mm-ficha">
+      <thead><tr><th>Apartado</th><th>Tren de engranes</th></tr></thead>
+      <tbody>
+        <tr><th>Elementos y forma</th><td>Dos discos dentados: el engrane del cigüeñal (pieza 8) y el engrane del árbol de levas (pieza 9). Cada uno va unido a su eje, así que cada eje con su engrane es <b>un solo eslabón</b>.</td></tr>
+        <tr><th>Número</th><td><b>3 eslabones</b>: bancada y dos ejes con engrane (sin contar los otros elementos que cuelgan de ellos).</td></tr>
+        <tr><th>Uniones</th><td><b>2 pares de perno</b> con la bancada (ejes en sus apoyos) y <b>1 par superior</b>: el contacto de los dientes (<b>rodadura con deslizamiento</b>, 2 GDL relativos en el plano, <b>clase 2</b>), de cierre por forma.</td></tr>
+        <tr><th>Movimientos</th><td>Los dos ejes hacen <b>rotación pura</b> alrededor de ejes fijos paralelos, en <b>sentidos opuestos</b> (engrane exterior).</td></tr>
+        <tr><th>Leyes</th><td>Relación de transmisión i = ω<sub>c</sub>/ω<sub>k</sub> = Z<sub>k</sub>/Z<sub>c</sub> (lección <a href="#l9-3">9.3</a>) y ley de conservación de la potencia: τ<sub>k</sub> = τ<sub>c</sub>·Z<sub>k</sub>/Z<sub>c</sub> sin pérdidas. <b>Movilidad:</b> M = 3(3 − 1) − 2(2) − 1 = <b>1</b>.</td></tr>
+        <tr><th>Función</th><td><b>Transmite</b> el movimiento circular y <b>modifica la velocidad</b> (y el par en sentido inverso): lo que ganas en velocidad lo pierdes en par.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Caso</th><th>Z<sub>c</sub> / Z<sub>k</sub></th><th>ω<sub>levas</sub> con ω = 120 °/s</th><th>Qué significa</th></tr></thead>
+      <tbody>
+        <tr><td>Modelo medido</td><td>≈ 1,72 (34/20 en el simulador)</td><td>≈ 206 °/s, sentido opuesto</td><td>La leva gira más rápido que el cigüeñal: sirve para estudiar cinemática, no está sincronizado como cuatro tiempos.</td></tr>
+        <tr><td>Cuatro tiempos real</td><td>0,5 (20/40)</td><td>60 °/s, sentido opuesto</td><td>Una apertura de cada válvula por cada 720° del cigüeñal.</td></tr>
+        <tr><td>Relación 1 : 1</td><td>1 (20/20)</td><td>120 °/s</td><td>Mismo giro, en sentido opuesto.</td></tr>
+      </tbody>
+    </table></div>
+  </section>
+  </article>
+
+  <article class="lesson" id="l10-4" data-mod="10" data-les="4" data-title="Subsistemas 3, 4 y 5: leva, balancín y válvula" data-obj="Analizar con la ficha tipológica la leva con su empujador, el balancín y la válvula con su resorte: ¿lineal o circular?, ¿transmite o transforma?" hidden>
+  <div class="prose wide">
+    <div class="mm-chain" aria-label="Cadena de subsistemas del motor">
+      <span class="mm-step a">① Pistón–biela–cigüeñal</span><i>→</i><span class="mm-step b">② Engranes</span><i>→</i><span class="mm-step c on">③ Leva–empujador</span><i>→</i><span class="mm-step d on">④ Balancín</span><i>→</i><span class="mm-step e on">⑤ Válvula y resorte</span>
+    </div>
+    <p>Los tres últimos subsistemas forman la <b>distribución</b> del motor: llevan el giro del árbol de levas hasta la apertura de la válvula. Aquí se ve bien que <b>una cadena puede cambiar varias veces de tipo de movimiento</b>: circular → lineal → (giro oscilante) → lineal.</p>
+  </div>
+
+  <section class="mm-sys" id="sys-c">
+    <h3 class="mt">③ Leva – empujador</h3>
+    <div class="mm-flow">
+      <div class="mm-io"><small>Entrada</small>Giro del árbol de levas<br><span>movimiento <b>circular</b></span></div>
+      <span class="mm-arrow" aria-hidden="true">→</span>
+      <div class="mm-io"><small>Salida</small>Subida y bajada del empujador<br><span>movimiento <b>lineal</b> con paradas</span></div>
+      <div class="mm-tags"><span class="mm-tag t">Transformación</span><span class="mm-tag">circular → lineal</span><span class="mm-tag">Grupo 3 · leva</span></div>
+    </div>
+    <div class="grid-2 wide-left">
+      <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="cam"></div><figcaption><b>Leva y seguidor:</b> el perfil de la leva fija exactamente cuánto sube el seguidor y cuándo.</figcaption></figure></div>
+      <div class="prose">
+        <h4>Cómo funciona</h4>
+        <p>La leva es un disco con un <b>lóbulo</b>. Mientras el lóbulo no pasa bajo el empujador, este queda en reposo (<b>parada</b>). Cuando llega, lo levanta hasta la alzada máxima y luego lo deja bajar. Así, un giro continuo se convierte en un movimiento lineal <b>con tiempos de parada</b>, algo que ninguna biela-manivela puede dar.</p>
+        <p>Normalmente es la leva la que <i>manda</i> y el empujador el que <i>obedece</i>. Que el empujador pudiera mover a la leva (el camino inverso) no es una propiedad general: <b>depende del diseño</b>, es decir, del perfil, de las fuerzas, de la fricción y del ángulo de presión (con ángulos de presión grandes el contacto tiende a trabarse). En este motor se diseña para que la leva mande.</p>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="mm-ficha">
+      <thead><tr><th>Apartado</th><th>Leva – empujador</th></tr></thead>
+      <tbody>
+        <tr><th>Elementos y forma</th><td>Árbol de levas con dos levas (discos con lóbulo) y empujador (barra larga con extremo que apoya en la leva) = <b>seguidor</b>.</td></tr>
+        <tr><th>Número</th><td><b>3 eslabones</b>: bancada, leva y empujador. El resorte (elemento <b>deformable</b>) mantiene el contacto, pero no se cuenta como eslabón.</td></tr>
+        <tr><th>Uniones</th><td>1 perno (leva–bancada), 1 prismático (empujador–guía) y <b>1 par superior</b> leva–empujador (contacto por línea o punto, 2 GDL en el plano, <b>clase 2</b>). <b>Cierre por fuerza</b>: lo mantiene el resorte de la válvula (lección <a href="#l1-5">1.5</a>).</td></tr>
+        <tr><th>Movimientos</th><td>Leva: <b>rotación pura</b> · Empujador: <b>traslación rectilínea</b> alternativa.</td></tr>
+        <tr><th>Leyes</th><td>Diagrama de alzada h(ψ): subida, parada y bajada. Velocidad v = ω·dh/dψ; aceleración a = ω²·d²h/dψ². <b>Movilidad:</b> M = 3(3 − 1) − 2(2) − 1 = <b>1</b> (con rodillo aparece un GDL inactivo, lección <a href="#l4-3">4.3</a>).</td></tr>
+        <tr><th>Función</th><td><b>Transforma</b> el movimiento (circular → lineal con paradas): el perfil de la leva <i>es</i> la ley de movimiento.</td></tr>
+      </tbody>
+    </table></div>
+    <div class="grid-2">
+      <div class="mini"><b>Por qué importa el perfil</b><span>Si la aceleración cambia bruscamente (perfil con ángulos), aparecen picos de fuerza, ruido y desgaste. Las gráficas de aceleración de las válvulas (10.6) muestran justo esos picos. Un perfil suave los reduce.</span></div>
+      <div class="mini"><b>Ángulo de presión</b><span>Es el ángulo entre la normal común a las superficies en contacto (dirección ideal de la fuerza normal) y la dirección de movimiento del empujador. Si es grande, solo una parte de la fuerza empuja hacia arriba y el resto aprieta el empujador contra su guía (como el ángulo de transmisión del cuatro barras, módulo 5).</span></div>
+    </div>
+  </section>
+
+  <section class="mm-sys" id="sys-d">
+    <h3 class="mt">④ Balancín (palanca)</h3>
+    <div class="mm-flow">
+      <div class="mm-io"><small>Entrada</small>Subida del empujador<br><span>movimiento <b>lineal</b></span></div>
+      <span class="mm-arrow" aria-hidden="true">→</span>
+      <div class="mm-io"><small>Salida</small>Bajada de la válvula<br><span>movimiento <b>lineal</b>, sentido invertido</span></div>
+      <div class="mm-tags"><span class="mm-tag">Transmisión</span><span class="mm-tag">lineal → lineal</span><span class="mm-tag">Grupo 1 · modifica la fuerza</span></div>
+    </div>
+    <div class="grid-2 wide-left">
+      <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="lever"></div><figcaption><b>Palanca de 1.er género:</b> el apoyo está entre la carga y el esfuerzo; un extremo sube y el otro baja.</figcaption></figure></div>
+      <div class="prose">
+        <h4>Cómo funciona — ¿es lineal → lineal?</h4>
+        <p><b>Sí, por sus extremos.</b> Lo que entra (el empujador) y lo que sale (la válvula) son traslaciones rectilíneas. Pero <b>dentro del balancín</b> el movimiento es una <b>rotación oscilante</b> alrededor de su eje: un pequeño giro α hace que un extremo suba y el otro baje. Por eso decimos que <b>transmite</b> un movimiento lineal a otro lineal <b>invirtiendo el sentido</b>.</p>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="mm-ficha">
+      <thead><tr><th>Apartado</th><th>Balancín</th></tr></thead>
+      <tbody>
+        <tr><th>Elementos y forma</th><td>Barra acodada con un pivote en el eje de balancines (pieza 10). Tiene <b>tres pares</b> (pivote, contacto con el empujador, contacto con la válvula): es un eslabón <b>ternario</b>.</td></tr>
+        <tr><th>Número</th><td><b>4 eslabones</b>: bancada, empujador, balancín y válvula.</td></tr>
+        <tr><th>Uniones</th><td>1 perno (balancín–eje), 2 prismáticos (empujador y válvula con la bancada) y <b>2 pares superiores</b> (empujador–balancín y balancín–válvula, contactos por punto). Cierre por fuerza.</td></tr>
+        <tr><th>Movimientos</th><td>Empujador: <b>traslación rectilínea</b> · Balancín: <b>rotación oscilante</b> en torno a un eje fijo (tipo «balancín») · Válvula: <b>traslación rectilínea</b>.</td></tr>
+        <tr><th>Leyes</th><td><b>Ley de la palanca</b> F₁·a = F₂·b y relación de recorridos: h<sub>válvula</sub> = h<sub>empujador</sub>·(b/a). Giro del balancín α ≈ h/a para ángulos pequeños. <b>Movilidad:</b> M = 3(4 − 1) − 2(3) − 2 = <b>1</b>.</td></tr>
+        <tr><th>Función</th><td><b>Transmite</b> el movimiento lineal a lineal, <b>invierte el sentido</b> y puede <b>modificar la fuerza y el recorrido</b> (grupo 1). Si a = b, solo invierte; si b &lt; a, reduce el recorrido y aumenta la fuerza sobre la válvula.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note">En el simulador (10.2) los dos brazos son iguales (a = b), por eso la válvula baja lo mismo que sube el empujador. Los brazos reales del modelo pueden ser distintos.</p>
+  </section>
+
+  <section class="mm-sys" id="sys-e">
+    <h3 class="mt">⑤ Válvula con resorte</h3>
+    <div class="mm-flow">
+      <div class="mm-io"><small>Entrada</small>Empuje del balancín<br><span>movimiento <b>lineal</b></span></div>
+      <span class="mm-arrow" aria-hidden="true">→</span>
+      <div class="mm-io"><small>Salida</small>Apertura y cierre del paso de gases<br><span>movimiento <b>lineal</b> con paradas</span></div>
+      <div class="mm-tags"><span class="mm-tag">Seguidor final</span><span class="mm-tag">lineal → lineal</span><span class="mm-tag">Grupo 4 · resorte = acumulador</span></div>
+    </div>
+    <div class="grid-2 wide-left">
+      <div class="vz-demos"><figure class="vz-demo"><div class="vz-host" data-scene="spring"></div><figcaption><b>Resorte:</b> almacena energía cuando se comprime y la devuelve al soltarse.</figcaption></figure></div>
+      <div class="prose">
+        <h4>Cómo funciona</h4>
+        <p>La válvula es un vástago con una cabeza que cierra el conducto. El balancín la empuja y se abre; cuando el lóbulo de la leva se retira, el <b>resorte</b> la devuelve a su asiento. Ese mismo resorte hace de <b>cierre por fuerza</b> de toda la distribución: mantiene el contacto de la válvula con el balancín, de este con el empujador y del empujador con la leva.</p>
+      </div>
+    </div>
+    <div class="table-wrap"><table class="mm-ficha">
+      <thead><tr><th>Apartado</th><th>Válvula y resorte</th></tr></thead>
+      <tbody>
+        <tr><th>Elementos y forma</th><td>Válvula: vástago con cabeza (rígido). Resorte helicoidal: elemento <b>deformable</b> que además <b>almacena energía</b> (lección <a href="#l1-5">1.5</a>).</td></tr>
+        <tr><th>Número</th><td><b>2 eslabones</b>: bancada y válvula. El resorte no cuenta como eslabón rígido.</td></tr>
+        <tr><th>Uniones</th><td>1 prismático (válvula–guía, <b>clase 1</b>) y el contacto de cierre de la cabeza con su asiento. El resorte actúa por <b>cierre por fuerza</b>.</td></tr>
+        <tr><th>Movimientos</th><td><b>Traslación rectilínea</b> alternativa, con largos tiempos de reposo.</td></tr>
+        <tr><th>Leyes</th><td>Ley de Hooke: F<sub>resorte</sub> = F<sub>precarga</sub> + k·x (la precarga es la fuerza con la válvula cerrada). Para que no se pierda el contacto con la leva, en cada instante debe cumplirse, de forma aproximada, F<sub>resorte</sub> ≥ m<sub>eq</sub>·a, donde m<sub>eq</sub> es una <b>masa equivalente</b> (válvula, más la parte de empujador, balancín y resorte que se mueve con ella, referida a la válvula por la relación de brazos) y a es la aceleración de la válvula. <b>Movilidad:</b> M = 3(2 − 1) − 2(1) = <b>1</b>.</td></tr>
+        <tr><th>Función</th><td>Regula el paso de gases (abre y cierra) y, con el resorte, <b>acumula energía</b> (grupo 4 · lección <a href="#l9-5">9.5</a>).</td></tr>
+      </tbody>
+    </table></div>
+    <div class="mini warn"><b>Flotación de válvula y límites de este modelo</b><span>Si la velocidad sube tanto que la aceleración necesaria supera lo que el resorte puede dar, la válvula pierde contacto con la leva y deja de seguir su perfil. El dimensionamiento real también considera la dinámica del propio resorte (vibraciones, resonancia), la rigidez de las piezas, las holguras y las condiciones de operación; este modelo con piezas rígidas no las incluye.</span></div>
+  </section>
+  </article>
+
+  <article class="lesson" id="l10-5" data-mod="10" data-les="5" data-title="Visión de conjunto: ficha del motor completo" data-obj="Resumir la cadena del motor, calcular su movilidad total y relacionar cada resultado con los conceptos del capítulo 1." hidden>
+  <div class="prose wide">
+    <h3>La cadena completa, etapa por etapa</h3>
+    <p>La tabla resume los cinco subsistemas. Fíjate cómo el tipo de movimiento va cambiando a lo largo de la cadena y cómo <b>solo dos etapas son transformaciones</b>.</p>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Etapa</th><th>Entrada → salida</th><th>¿Lineal o circular?</th><th>¿Transmite o transforma?</th><th>Grupo (mód. 9)</th><th>Pares</th><th>M</th></tr></thead>
+    <tbody>
+      <tr><td>① Pistón–biela–cigüeñal</td><td>giro del cigüeñal → vaivén del pistón</td><td>circular → <b>lineal</b></td><td><b>Transforma</b></td><td>3 · biela-manivela</td><td>3 R + 1 P</td><td>1</td></tr>
+      <tr><td>② Engranes</td><td>giro del cigüeñal → giro del árbol de levas</td><td>circular → <b>circular</b></td><td><b>Transmite</b> (cambia velocidad)</td><td>2 · engranajes</td><td>2 R + contacto de dientes</td><td>1</td></tr>
+      <tr><td>③ Leva–empujador</td><td>giro del árbol → subida del empujador</td><td>circular → <b>lineal</b></td><td><b>Transforma</b></td><td>3 · leva</td><td>R + P + contacto</td><td>1</td></tr>
+      <tr><td>④ Balancín</td><td>subida del empujador → bajada de la válvula</td><td><b>lineal → lineal</b> (pasa por giro oscilante)</td><td><b>Transmite</b> (invierte el sentido)</td><td>1 · palanca</td><td>R + 2 contactos</td><td>1</td></tr>
+      <tr><td>⑤ Válvula y resorte</td><td>empuje del balancín → apertura de la válvula</td><td><b>lineal → lineal</b></td><td>Seguidor final; resorte acumula energía</td><td>4 · acumulador</td><td>P + cierre por fuerza</td><td>1</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose wide">
+    <h3 class="mt">Tipo de movimiento de cada eslabón (lección 1.3)</h3>
+  </div>
+  <div class="table-wrap"><table>
+    <thead><tr><th>Eslabón</th><th>Movimiento</th><th>Tipo (lección 1.5)</th></tr></thead>
+    <tbody>
+      <tr><td>Base</td><td>fijo</td><td>bancada</td></tr>
+      <tr><td>Cigüeñal y árbol de levas</td><td>rotación pura</td><td>manivela (giran completos)</td></tr>
+      <tr><td>Biela</td><td>movimiento plano general</td><td>acoplador</td></tr>
+      <tr><td>Pistón, empujador, válvula</td><td>traslación rectilínea</td><td>deslizadera</td></tr>
+      <tr><td>Balancín</td><td>rotación oscilante</td><td>balancín</td></tr>
+    </tbody>
+  </table></div>
+
+  <div class="prose wide">
+    <h3 class="mt">Ficha del motor completo</h3>
+    <ul>
+      <li><b>Máquina y mecanismo (1.1):</b> el motor es la máquina; su mecanismo es la parte que transmite movimiento y fuerza de la entrada a las salidas. Las fuentes de energía (combustión) y el control no son parte del mecanismo.</li>
+      <li><b>Cadena cinemática:</b> posee varios lazos cinemáticos (cigüeñal–biela–pistón–bancada y la transmisión de distribución). Su movilidad ideal se determina contando y verificando las restricciones del conjunto, no solo por tratarse de una cadena cerrada (lección <a href="#l4-1">4.1</a>).</li>
+      <li><b>Elementos:</b> 13 eslabones: bancada, cigüeñal, árbol de levas, 2 bielas, 2 pistones, 2 empujadores, 2 balancines y 2 válvulas.</li>
+      <li><b>Pares:</b> 14 inferiores (j<sub>p</sub>) y 7 superiores (j<sub>h</sub>).</li>
+      <li><b>Cierre:</b> por forma en los pernos y guías; por fuerza (resorte) en la distribución.</li>
+    </ul>
+    <p class="formula">M = 3(n − 1) − 2 j<sub>p</sub> − j<sub>h</sub><br>&nbsp;&nbsp;&nbsp;= 3(12) − 2(14) − 7 = 36 − 28 − 7 = <b>1</b></p>
+    <p>En una configuración regular y dentro de una rama de ensamblaje del modelo ideal, una coordenada de entrada, como el ángulo del cigüeñal, determina localmente la posición de los demás eslabones. Es la movilidad de un modelo plano idealizado; el ensamble 3D puede incluir apoyos, contactos y restricciones adicionales que exigen validación específica (movilidad calculada frente a observada, lección <a href="#l4-3">4.3</a>).</p>
+    <h3 class="mt">Cómo se obtiene el conteo: eslabones y uniones numerados</h3>
+    <p>La ecuación de Grübler solo es confiable si el conteo es correcto. Por eso cada eslabón recibe un número y cada unión se escribe como una <b>pareja de eslabones</b>. Se supone el modelo plano idealizado: el cigüeñal y su engrane forman <b>un solo eslabón</b> rígido (las dos piezas del cigüeñal y el engrane giran juntos, como lo confirma el estudio de movimiento).</p>
+  </div>
+  <div class="grid-2">
+    <div class="table-wrap"><table>
+      <thead><tr><th>N.º</th><th>Eslabón</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td>Base (bancada)</td></tr>
+        <tr><td>2</td><td>Cigüeñal con su engrane</td></tr>
+        <tr><td>3</td><td>Árbol de levas (con su engrane y sus dos levas)</td></tr>
+        <tr><td>4, 5</td><td>Biela del cilindro A, biela del cilindro B</td></tr>
+        <tr><td>6, 7</td><td>Pistón A, pistón B (cada uno con su pasador)</td></tr>
+        <tr><td>8, 9</td><td>Empujador A, empujador B</td></tr>
+        <tr><td>10, 11</td><td>Balancín A, balancín B</td></tr>
+        <tr><td>12, 13</td><td>Válvula A, válvula B</td></tr>
+      </tbody>
+    </table></div>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Tipo</th><th>Uniones (pareja de eslabones)</th><th>Cantidad</th></tr></thead>
+      <tbody>
+        <tr><td><b>Perno</b> (R)</td><td>1–2 · 1–3 · 2–4 · 2–5 · 4–6 · 5–7 · 1–10 · 1–11</td><td>8</td></tr>
+        <tr><td><b>Corredera</b> (P)</td><td>1–6 · 1–7 · 1–8 · 1–9 · 1–12 · 1–13</td><td>6</td></tr>
+        <tr><td><b>Total inferiores</b> j<sub>p</sub></td><td></td><td><b>14</b></td></tr>
+        <tr><td><b>Superiores</b> (contacto)</td><td>2–3 (engranes) · 3–8 y 3–9 (levas) · 8–10 y 9–11 (empujador–balancín) · 10–12 y 11–13 (balancín–válvula)</td><td><b>7</b> = j<sub>h</sub></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+  <div class="prose wide">
+    <p><b>Por qué no se suman las movilidades de los subsistemas.</b> Cada subsistema de 10.3 y 10.4 tiene M = 1 <i>por separado</i>, pero comparten eslabones (la bancada, el cigüeñal, el árbol de levas) y cada etapa recibe su entrada de la anterior. Si sumáramos 1 + 1 + 1 + 1 + 1 = 5 contaríamos cinco entradas independientes, cuando en realidad solo hay una: el cigüeñal. Para el modelo plano idealizado, debe hacerse un conteo global coherente de todos los cuerpos y uniones, y comprobar que las restricciones sean independientes. El conteo propuesto da M = 1 bajo esas hipótesis.</p>
+    <p class="note">Este conteo es la forma de leer el modelo, no una verdad única: en el ensamble 3D real el contacto entre piezas, las holguras y los apoyos pueden modelarse de otra forma y dar otro resultado (movilidad calculada frente a observada, lección <a href="#l4-3">4.3</a>).</p>
+
+    <h3 class="mt">Cómo se estudió el movimiento (módulo 7)</h3>
+    <p>Hay dos formas de obtener posición, velocidad y aceleración del pistón. El <b>método analítico</b> usa las fórmulas de la manivela-corredera; el <b>método computacional</b> es el estudio de movimiento del CAD. Con los datos del estudio puedes <b>verificar</b> uno con el otro:</p>
+    <details class="worked"><summary>🔧 Verificación con los datos del estudio</summary>
+      <ul>
+        <li>ω = 120 °/s = 2,094 rad/s → periodo de una vuelta = 360/120 = <b>3 s</b>. En las gráficas el pistón repite su movimiento cada 3 s ✔</li>
+        <li>Carrera ≈ 10 mm (posición entre ≈ 16 y 26 mm) → r ≈ 5 mm → v<sub>máx</sub> ≈ rω ≈ <b>10,5 mm/s</b>. La gráfica llega a ≈ 11–12 mm/s: coincide en orden de magnitud (la escala no permite leer con más precisión).</li>
+        <li>r·ω² = 5 × 4,386 ≈ <b>22 mm/s²</b>; con λ entre 0,2 y 0,3 el pico en el punto muerto estaría entre 26 y 29 mm/s², del orden de lo que muestra la gráfica.</li>
+        <li>Árbol de levas: 360/206 ≈ <b>1,75 s</b> por vuelta, el periodo de válvulas y balancines en las gráficas ✔</li>
+      </ul>
+    </details>
+  </div>
+  </article>
+
+  <article class="lesson" id="l10-6" data-mod="10" data-les="6" data-title="Resultados del análisis de movimiento" data-obj="Leer las gráficas de posición, velocidad y aceleración del estudio y explicar qué muestra cada una." hidden>
+  <div class="prose wide">
+    <h3>Cómo leer las gráficas</h3>
+    <figure class="card big mm-vid">
+      <video controls loop muted playsinline preload="metadata" aria-label="Estudio de movimiento del motor"><source src="motor/video/Motor.mp4" type="video/mp4"></video>
+      <figcaption>Las gráficas de abajo salen de este estudio de movimiento.</figcaption>
+    </figure>
+    <p>Las 46 gráficas son del estudio de movimiento: 10 s de simulación con el cigüeñal a <b>120 °/s</b> constante. Cada magnitud tiene curvas del elemento 1 (azul), del elemento 2 (rojo) y una gráfica con ambas «transpuestas» (superpuestas), que sirve para comparar fases. Estas son las ideas principales:</p>
+    <ul>
+      <li><b>Cigüeñal.</b> Velocidad constante (120 °/s); su posición angular es un diente de sierra (sube de −180° a 180° y reinicia, una vez cada 3 s); aceleración ≈ 0.</li>
+      <li><b>Árbol de levas.</b> Velocidad constante de 206 °/s en sentido opuesto (diente de sierra descendente, periodo ≈ 1,75 s). La razón 206/120 ≈ 1,72 es la de los engranes.</li>
+      <li><b>Pistones.</b> Posición casi senoidal (≈ 16 a 26 mm, periodo 3 s) y <b>desfasada 180°</b> entre los dos pistones. La velocidad también es casi senoidal; la aceleración tiene plateaus y picos agudos, por el segundo armónico de la biela.</li>
+      <li><b>Válvulas y balancines.</b> Se mueven con el periodo del árbol de levas (≈ 1,75 s), no con el del cigüeñal. La alzada es muy pequeña (≈ 0,3 mm) y los balancines giran ≈ 6° (de 142° a 148°); el perfil tiene una «doble joroba» que viene de la forma de la leva.</li>
+      <li><b>Picos iniciales.</b> Hay un pico en la aceleración cerca de 0,8–1 s (pistón, válvula y balancín). Probablemente es un transitorio del arranque o del primer contacto de la simulación, no del régimen estable; conviene confirmarlo con el modelo.</li>
+    </ul>
+  </div>
+
+  <div class="prose wide">
+    <h3 class="mt">Cómo interpretar una gráfica de movimiento</h3>
+    <ul>
+      <li><b>Eje horizontal:</b> el tiempo, en segundos (de 0 a 10 s).</li>
+      <li><b>Eje vertical:</b> la magnitud, con su unidad: posición (mm o °), velocidad (mm/s o °/s) o aceleración (mm/s² o °/s²).</li>
+      <li><b>Relación entre las tres:</b> la velocidad es <i>qué tan rápido cambia la posición</i> (la pendiente de la curva de posición); la aceleración es <i>qué tan rápido cambia la velocidad</i> (la pendiente de la curva de velocidad).</li>
+      <li><b>Curva azul y roja:</b> elemento 1 y elemento 2 (por ejemplo, pistón 1 y pistón 2). La gráfica «transpuesta» las superpone para comparar su desfase.</li>
+    </ul>
+    <details class="worked"><summary>❓ ¿Por qué la velocidad del pistón es cero en los puntos muertos?</summary>
+      <p>Porque ahí el pistón se detiene un instante para invertir su sentido: sube, se para arriba y baja. En la gráfica de posición son los máximos y mínimos (la pendiente es cero) y en la de velocidad, los cruces por cero.</p></details>
+    <details class="worked"><summary>❓ ¿Por qué la aceleración del pistón no es una senoide pura?</summary>
+      <p>Si la biela fuera infinitamente larga, el movimiento del pistón sería exactamente senoidal. Con una biela de longitud finita aparece un segundo término, λ·cos 2θ, que deforma la curva: la aceleración es mayor en el punto muerto superior que en el inferior (lección <a href="#l10-3">10.3</a>).</p></details>
+    <details class="worked"><summary>❓ ¿Por qué la aceleración es máxima justo donde la velocidad es cero?</summary>
+      <p>Porque en los puntos muertos la velocidad cambia de signo, y lo hace con la mayor rapidez: allí la pendiente de la curva de velocidad es máxima. Es el mismo efecto que lanzar una pelota hacia arriba: en el punto más alto la velocidad es cero, pero la gravedad sigue actuando.</p></details>
+    <details class="worked"><summary>❓ ¿Qué significa que la válvula suba solo ≈ 0,3 mm?</summary>
+      <p>Es la <b>alzada</b>: cuánto se separa la válvula de su asiento. En este modelo es muy pequeña (en motores reales suele ser de varios milímetros), así que sirve para estudiar <i>cómo se mueven</i> las piezas, no para estimar cuánto aire entra al cilindro. Conclusión de diseño: con una alzada tan pequeña el paso de gases sería muy limitado; para un motor real habría que aumentarla.</p></details>
+    <details class="worked"><summary>❓ ¿Qué indican los picos de la aceleración de las válvulas y balancines?</summary>
+      <p>Que el movimiento cambia de forma brusca en ese instante, por ejemplo al empezar o terminar el lóbulo de la leva. Como la fuerza necesaria es F = m·a, un pico de aceleración es un pico de fuerza: más desgaste, ruido y riesgo de perder el contacto. Por eso en el diseño de levas se buscan perfiles suaves.</p></details>
+    <details class="worked"><summary>❓ ¿Por qué la aceleración del cigüeñal es casi cero y la posición angular parece un diente de sierra?</summary>
+      <p>Porque en el estudio se <b>impuso</b> una velocidad constante: sin variación de velocidad no hay aceleración. El diente de sierra de la posición no es un salto físico: el ángulo se reinicia al pasar de 180° a −180° por la forma de medirlo; el eje sigue girando de forma continua.</p></details>
+  </div>
+
+  <details class="worked" open><summary>📍 Posición</summary>
+    <h4 class="mm-h">Pistones</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image35.png" alt="Posición lineal del pistón 1" loading="lazy"><figcaption>Pistón 1: entre ≈ 16 y 26 mm, periodo 3 s.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image36.png" alt="Posición lineal del pistón 2" loading="lazy"><figcaption>Pistón 2: mismo recorrido, desfasado.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image37.png" alt="Posición de ambos pistones" loading="lazy"><figcaption>Ambos: en oposición de fase (180°).</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Válvulas</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image38.png" alt="Posición de la válvula 1" loading="lazy"><figcaption>Válvula 1: alzada ≈ 0,3 mm con doble joroba.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image39.png" alt="Posición de la válvula 2" loading="lazy"><figcaption>Válvula 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image40.png" alt="Posición de ambas válvulas" loading="lazy"><figcaption>Ambas válvulas: desfase entre sus lóbulos.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Cigüeñal y árbol de levas</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image41.png" alt="Posición angular del cigüeñal" loading="lazy"><figcaption>Cigüeñal: diente de sierra ascendente, 3 s por vuelta.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image42.png" alt="Posición angular del árbol de levas" loading="lazy"><figcaption>Árbol de levas: descendente (sentido opuesto), más rápido.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image43.png" alt="Posición angular de ambos ejes" loading="lazy"><figcaption>Ambos ejes juntos.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Balancines</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image44.png" alt="Posición angular del balancín 1" loading="lazy"><figcaption>Balancín 1: oscila ≈ 142°–148°.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image45.png" alt="Posición angular del balancín 2" loading="lazy"><figcaption>Balancín 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image46.png" alt="Posición angular de ambos balancines" loading="lazy"><figcaption>Ambos balancines.</figcaption></figure>
+    </div>
+  </details>
+
+  <details class="worked"><summary>🏃 Velocidad</summary>
+    <h4 class="mm-h">Pistones (eje Y y magnitud)</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image3.png" alt="Velocidad lineal del pistón 1" loading="lazy"><figcaption>Pistón 1 (eje Y): cambia de signo en cada punto muerto.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image4.png" alt="Velocidad lineal del pistón 2" loading="lazy"><figcaption>Pistón 2 (eje Y).</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image5.png" alt="Velocidades de los pistones" loading="lazy"><figcaption>Ambos: desfase de 180°.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image6.png" alt="Magnitud de la velocidad del pistón 1" loading="lazy"><figcaption>Magnitud, pistón 1: llega a cero en los puntos muertos.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image7.png" alt="Magnitud de la velocidad del pistón 2" loading="lazy"><figcaption>Magnitud, pistón 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image8.png" alt="Magnitud de las velocidades de ambos pistones" loading="lazy"><figcaption>Magnitudes superpuestas.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Válvulas</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image10.png" alt="Velocidad de la válvula 1" loading="lazy"><figcaption>Válvula 1.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image11.png" alt="Velocidad de la válvula 2" loading="lazy"><figcaption>Válvula 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image12.png" alt="Velocidades de ambas válvulas" loading="lazy"><figcaption>Ambas válvulas.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Cigüeñal y árbol de levas</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image15.png" alt="Velocidad angular del cigüeñal" loading="lazy"><figcaption>Cigüeñal: constante, 120 °/s.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image16.png" alt="Velocidad angular del árbol de levas" loading="lazy"><figcaption>Árbol de levas: constante, 206 °/s.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image17.png" alt="Velocidades angulares transpuestas" loading="lazy"><figcaption>Ambas, para comparar.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Balancines</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image20.png" alt="Velocidad angular del balancín 1" loading="lazy"><figcaption>Balancín 1.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image21.png" alt="Velocidad angular del balancín 2" loading="lazy"><figcaption>Balancín 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image22.png" alt="Velocidades angulares de los balancines" loading="lazy"><figcaption>Ambos balancines.</figcaption></figure>
+    </div>
+  </details>
+
+  <details class="worked"><summary>🚀 Aceleración</summary>
+    <h4 class="mm-h">Pistones</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image23.png" alt="Aceleración lineal del pistón 1" loading="lazy"><figcaption>Pistón 1: no es una senoide pura.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image24.png" alt="Aceleración lineal del pistón 2" loading="lazy"><figcaption>Pistón 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image25.png" alt="Aceleraciones lineales de los pistones" loading="lazy"><figcaption>Ambos, en oposición.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Válvulas</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image26.png" alt="Aceleración de la válvula 1" loading="lazy"><figcaption>Válvula 1: picos agudos.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image27.png" alt="Aceleración de la válvula 2" loading="lazy"><figcaption>Válvula 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image28.png" alt="Aceleraciones de ambas válvulas" loading="lazy"><figcaption>Ambas válvulas.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Cigüeñal y árbol de levas</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image29.png" alt="Aceleración angular del cigüeñal" loading="lazy"><figcaption>Cigüeñal: ≈ 0 (velocidad constante).</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image30.png" alt="Aceleración angular del árbol de levas" loading="lazy"><figcaption>Árbol de levas: ≈ 0, con picos puntuales.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image31.png" alt="Aceleraciones angulares transpuestas" loading="lazy"><figcaption>Ambos ejes.</figcaption></figure>
+    </div>
+    <h4 class="mm-h">Balancines</h4>
+    <div class="mm-gal g3">
+      <figure class="card"><img class="mm-img" src="motor/img/image32.png" alt="Aceleración angular del balancín 1" loading="lazy"><figcaption>Balancín 1.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image33.png" alt="Aceleración angular del balancín 2" loading="lazy"><figcaption>Balancín 2.</figcaption></figure>
+      <figure class="card"><img class="mm-img" src="motor/img/image34.png" alt="Aceleraciones angulares de los balancines" loading="lazy"><figcaption>Ambos balancines.</figcaption></figure>
+    </div>
+  </details>
+  </article>
+</section>
+
+</main>
+</div>
+
+<script src="app.js?v=4"></script>
+<script src="extra.js?v=3"></script>
+<script src="extra3.js?v=3"></script>
+<script src="extra2.js?v=3"></script>
+<script src="nav.js?v=3"></script>
+<script src="visual.js?v=11"></script>
+<script src="tipos.js?v=4"></script>
+<script src="pares.js?v=3"></script>
+<script src="repaso.js?v=1"></script>
+<script src="motor.js?v=1"></script>
+<script src="motor3d.js?v=1"></script>
+<script src="layout.js?v=1"></script>
+</body>
+</html>

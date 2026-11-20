@@ -1,0 +1,21 @@
+# SolidWorks: archivos de bloqueo temporales
+~$*
+# sistema / editores
+Thumbs.db
+.DS_Store
+.vscode/
+*.log
+
+# material de CAD: no se publica
+*.sldprt
+*.sldasm
+*.slddrw
+*.SLDPRT
+*.SLDASM
+*.SLDDRW
+*.step
+*.stp
+*.stl
+*.docx
+*.glb
+motor/archivos/
